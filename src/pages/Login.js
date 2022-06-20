@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isDisabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const REGEX_EMAIL_VALID = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
+    const MIN_PASSWORD = 6;
+
+    if (REGEX_EMAIL_VALID.test(email) && password.length >= MIN_PASSWORD) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [email, password]);
 
   const handleInput = ({ target: { name, value } }) => {
     switch (name) {
@@ -43,8 +55,9 @@ function Login() {
         value={ password }
       />
       <button
-        type="submit"
         data-testid="login-submit-btn"
+        disabled={ isDisabled }
+        type="submit"
       >
         Enviar
       </button>
