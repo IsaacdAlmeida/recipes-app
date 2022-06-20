@@ -29,7 +29,7 @@ function Header() {
         >
           <img src={ searchIcon } alt="search button" />
         </button>
-        { showSearchBar ? <p data-testid="search-input">Mostrar Barra</p> : null }
+        { showSearchBar && <p data-testid="search-input">Mostrar Barra</p> }
       </div>
     </div>
   );
