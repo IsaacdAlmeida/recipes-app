@@ -9,7 +9,7 @@ function Login() {
     const REGEX_EMAIL_VALID = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
     const MIN_PASSWORD = 6;
 
-    if (REGEX_EMAIL_VALID.test(email) && password.length >= MIN_PASSWORD) {
+    if (REGEX_EMAIL_VALID.test(email) && password.length > MIN_PASSWORD) {
       setDisabled(false);
     } else {
       setDisabled(true);
