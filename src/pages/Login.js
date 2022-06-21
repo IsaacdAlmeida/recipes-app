@@ -57,7 +57,7 @@ function Login(props) {
         data-testid="password-input"
         name="password"
         placeholder="Password"
-        type="text"
+        type="password"
         onChange={ handleInput }
         value={ password }
       />
