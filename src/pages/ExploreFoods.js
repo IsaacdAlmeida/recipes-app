@@ -3,7 +3,7 @@ import Header from '../components/Header';
 
 function ExploreFoods() {
   return (
-    <Header /> // precisa remover o ícone da lupa
+    <Header pageName="Explore Foods" isEnable={ false } /> // precisa remover o ícone da lupa
   );
 }
 

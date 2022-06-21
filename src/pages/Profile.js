@@ -3,7 +3,9 @@ import Header from '../components/Header';
 
 function Profile() {
   return (
-    <Header /> // precisa remover o ícone da lupa
+    <div>
+      <Header pageName="Profile" isEnable={ false } />
+    </div>
   );
 }
 
