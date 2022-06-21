@@ -49,7 +49,7 @@ function Login(props) {
         data-testid="email-input"
         name="email"
         placeholder="Email"
-        type="text"
+        type="email"
         onChange={ handleInput }
         value={ email }
       />
@@ -57,7 +57,7 @@ function Login(props) {
         data-testid="password-input"
         name="password"
         placeholder="Password"
-        type="text"
+        type="password"
         onChange={ handleInput }
         value={ password }
       />
