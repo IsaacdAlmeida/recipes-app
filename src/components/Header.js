@@ -1,3 +1,4 @@
+
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import headerContext from '../context/headerContext';
 function Header({ pageName, isEnable }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { handleChange, search } = useContext(headerContext);
+  
   return (
     <div>
       <Link to="/profile">
