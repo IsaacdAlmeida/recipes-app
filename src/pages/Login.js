@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PropType from 'prop-types';
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setDisabled] = useState(true);
@@ -30,9 +31,15 @@ function Login() {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('test');
+  const handleSubmit = () => {
+    const { history } = props;
+    const userJson = JSON.stringify({ email });
+
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', userJson);
+
+    history.push('/foods');
   };
 
   return (
@@ -64,5 +71,11 @@ function Login() {
     </form>
   );
 }
+
+Login.propTypes = {
+  history: PropType.shape({
+    push: PropType.func.isRequired,
+  }).isRequired,
+};
 
 export default Login;
