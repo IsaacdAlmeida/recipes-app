@@ -1,15 +1,38 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 function Profile() {
+  const clearStorage = () => {
+    storage.clear();
+  };
   return (
     <div>
       <Header pageName="Profile" isEnable={ false } />
       <section>
         <p data-testid="profile-email">email@test.com</p>
-        <button data-testid="profile-done-btn" type="button"> Done Recipes</button>
-        <button data-testid="profile-favorite-btn" type="button">Favorite Recipes</button>
-        <button data-testid="profile-logout-btn" type="button">Logout</button>
+        <Link to="/done-recipes">
+          <button data-testid="profile-done-btn" type="button">
+            Done Recipes
+          </button>
+        </Link>
+        <Link to="/favorite-recipes">
+          <button
+            data-testid="profile-favorite-btn"
+            type="button"
+          >
+            Favorite Recipes
+          </button>
+        </Link>
+        <Link to="/login">
+          <button
+            data-testid="profile-logout-btn"
+            type="button"
+            onClick={ clearStorage }
+          >
+            Logout
+          </button>
+        </Link>
       </section>
     </div>
   );
