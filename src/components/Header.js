@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import headerContext from '../context/headerContext';
+import HeaderSearch from './HeaderSearch';
 
 // useState provisório enquanto não cria o provider necessário
 
 function Header({ pageName, isEnable }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { handleChange, search } = useContext(headerContext);
-
   return (
     <div>
       <Link to="/profile">
@@ -34,12 +34,17 @@ function Header({ pageName, isEnable }) {
             onClick={ () => setShowSearchBar(!showSearchBar) }
           />
           { showSearchBar
-            && <input
-              data-testid="search-input"
-              type="text"
-              value={ search }
-              onChange={ handleChange }
-            /> }
+            && (
+              <div>
+                <input
+                  data-testid="search-input"
+                  type="text"
+                  value={ search }
+                  onChange={ handleChange }
+                />
+                <HeaderSearch />
+              </div>
+            )}
         </div>
       ) }
     </div>
