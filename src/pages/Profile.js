@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 function Profile() {
+  const viewEmail = JSON.parse(localStorage.getItem('user'));
+
   const clearStorage = () => {
-    localStorage.setItem('user', { email: 'email@mail.com' });
+    localStorage.clear();
   };
   return (
     <div>
       <Header pageName="Profile" isEnable={ false } />
       <section>
-        <p data-testid="profile-email">email@test.com</p>
+        <p
+          data-testid="profile-email"
+          type="text"
+        >
+          {viewEmail.email}
+        </p>
+
         <Link to="/done-recipes">
           <button data-testid="profile-done-btn" type="button">
             Done Recipes
@@ -24,7 +32,7 @@ function Profile() {
             Favorite Recipes
           </button>
         </Link>
-        <Link to="/login">
+        <Link to="/">
           <button
             data-testid="profile-logout-btn"
             type="button"
