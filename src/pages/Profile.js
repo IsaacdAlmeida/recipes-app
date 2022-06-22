@@ -4,7 +4,7 @@ import Header from '../components/Header';
 
 function Profile() {
   const clearStorage = () => {
-    storage.clear();
+    localStorage.setItem('user', { email: 'email@mail.com' });
   };
   return (
     <div>
