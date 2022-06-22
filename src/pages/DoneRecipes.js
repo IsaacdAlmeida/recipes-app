@@ -7,7 +7,7 @@ import doneRecipesContext from '../context/doneRecipesContext';
 function DoneRecipes() {
   const {
     filtered,
-    isCopied,
+    indexMessage,
     clipboard,
     filterRecipes } = useContext(doneRecipesContext);
 
@@ -42,14 +42,13 @@ function DoneRecipes() {
             type="image"
             data-testid={ `${index}-horizontal-share-btn` }
             src={ shareIcon }
-            id="share"
+            id={ index }
             onClick={ clipboard }
             value={ `http://localhost:3000/${recipes.type}s/${recipes.id}` }
             alt="share button"
           />
-          {/* Req 57 - Necessário melhora-lo, pois esta apresentando a mensagem
-           para todos e deve apresentar apenas para o produto clicado */ }
-          { isCopied && <p>Link copied!</p> }
+          {/* Req 57 - Validação para apresentar o texto apenas na receita clicada */ }
+          { Number(indexMessage) === Number(index) && <p>Link copied!</p> }
           {/* Req 59 - Aplicado o redirect para a pagina da receita */ }
           <Link to={ `/${recipes.type}s/${recipes.id}` }>
             <img
