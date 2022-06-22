@@ -5,13 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import RecipesProvider from './context/searchProvider';
 import HeaderProvider from './context/headerProvider';
+import DoneRecipesProvider from './context/doneRecipesProvider';
 
 ReactDOM.render(
-  <HeaderProvider>
-    <RecipesProvider>
-      <App />
-    </RecipesProvider>
-  </HeaderProvider>,
+  <DoneRecipesProvider>
+    <HeaderProvider>
+      <RecipesProvider>
+        <App />
+      </RecipesProvider>
+    </HeaderProvider>
+  </DoneRecipesProvider>,
   document.getElementById('root'),
 );
 
