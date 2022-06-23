@@ -6,15 +6,18 @@ import * as serviceWorker from './serviceWorker';
 import RecipesProvider from './context/searchProvider';
 import HeaderProvider from './context/headerProvider';
 import DoneRecipesProvider from './context/doneRecipesProvider';
+import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 
 ReactDOM.render(
-  <DoneRecipesProvider>
-    <HeaderProvider>
-      <RecipesProvider>
-        <App />
-      </RecipesProvider>
-    </HeaderProvider>
-  </DoneRecipesProvider>,
+  <FavoriteRecipesProvider>
+    <DoneRecipesProvider>
+      <HeaderProvider>
+        <RecipesProvider>
+          <App />
+        </RecipesProvider>
+      </HeaderProvider>
+    </DoneRecipesProvider>
+  </FavoriteRecipesProvider>,
   document.getElementById('root'),
 );
 
