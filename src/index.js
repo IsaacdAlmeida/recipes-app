@@ -13,11 +13,14 @@ ReactDOM.render(
     <DoneRecipesProvider>
       <HeaderProvider>
         <RecipesProvider>
-          <App />
+          <ExplorerProvider>
+            <App />
+          </ExplorerProvider>
         </RecipesProvider>
       </HeaderProvider>
     </DoneRecipesProvider>
   </MainPageProvider>,
+
   document.getElementById('root'),
 );
 
