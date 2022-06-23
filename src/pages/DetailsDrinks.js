@@ -109,6 +109,7 @@ function DetailsDrinks(props) {
       <button
         type="button"
         data-testid="start-recipe-btn"
+        className="fixed-bottom"
       >
         Start Recipe
       </button>
