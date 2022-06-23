@@ -6,6 +6,7 @@ function Explore() {
   return (
     <div>
       <Header pageName="Explore" isEnable={ false } />
+      {/* Req - 68/69 criado dois botões e adicionado rotas para suas respectivas paginas */ }
       <Link to="/explore/foods">
         <button
           data-testid="explore-foods"
