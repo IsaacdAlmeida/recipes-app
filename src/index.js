@@ -7,17 +7,23 @@ import RecipesProvider from './context/searchProvider';
 import HeaderProvider from './context/headerProvider';
 import DoneRecipesProvider from './context/doneRecipesProvider';
 import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
+import MainPageProvider from './context/MainPageProvider';
 
 ReactDOM.render(
-  <FavoriteRecipesProvider>
-    <DoneRecipesProvider>
-      <HeaderProvider>
-        <RecipesProvider>
-          <App />
-        </RecipesProvider>
-      </HeaderProvider>
-    </DoneRecipesProvider>
-  </FavoriteRecipesProvider>,
+  <MainPageProvider>
+    <FavoriteRecipesProvider>
+      <DoneRecipesProvider>
+        <HeaderProvider>
+          <RecipesProvider>
+            <ExplorerProvider>
+              <App />
+            </ExplorerProvider>
+          </RecipesProvider>
+        </HeaderProvider>
+      </DoneRecipesProvider>
+    </FavoriteRecipesProvider>
+  </MainPageProvider>,
+
   document.getElementById('root'),
 );
 

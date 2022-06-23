@@ -2,12 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import useEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
+import renderWithRouter from './renderWithRouter';
+import App from '../App';
 
 const EMAIL_INPUT_TEST_ID = 'email-input';
 const PASSWORD_INPUT_TEST_ID = 'password-input';
 const LOGIN_SUBMIT_BNT_TEST_ID = 'login-submit-btn';
 const VALID_EMAIL = 'test@test.com';
-const VALID_PASSWORD = 'test12';
+const VALID_PASSWORD = 'test123';
 
 describe('Testing page Login', () => {
   it('Testing componentes in screen, Requirement 2', () => {
@@ -44,5 +46,22 @@ describe('Testing page Login', () => {
     useEvent.type(inputPassword, VALID_PASSWORD);
 
     expect(bntSubmit).not.toBeDisabled();
+  });
+
+  it.only('Testing Redirect to p p', () => {
+    const { history, debug } = renderWithRouter(<App />);
+
+    expect(history.location.pathname).toBe('/');
+
+    const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
+    const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
+    const bntSubmit = screen.getByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
+
+    useEvent.type(inputEmailEL, VALID_EMAIL);
+    useEvent.type(inputPassword, VALID_PASSWORD);
+    useEvent.click(bntSubmit);
+
+    debug();
+    expect(history.location.pathname).toBe('/foods');
   });
 });
