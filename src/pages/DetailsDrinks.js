@@ -30,6 +30,15 @@ import CarouselRecommend from '../components/CarouselRecommend';
 //   },
 // ];
 
+// const inProgressRecipes = {
+//   cocktails: {
+//     17222: [],
+//   },
+//   meals: {
+//     i52844: [],
+//   },
+// };
+
 function DetailsDrinks(props) {
   const [data, setData] = useState({});
   const [arrayIngredients, setIngredient] = useState([]);
@@ -37,11 +46,14 @@ function DetailsDrinks(props) {
   const [arrayRecomendation, setRecomendation] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [isDisabled, setDisabled] = useState(false);
-  // localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+  const [continueRecipe, setContinue] = useState(false);
+  // localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
+    // todo: Colocar em um provider global
     const requireApiFood = async () => {
       const URL_FOOD = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       const dataApi = await fetch(URL_FOOD).then((response) => response.json());
@@ -51,6 +63,7 @@ function DetailsDrinks(props) {
   }, [id]);
 
   useEffect(() => {
+    // todo: Colocar em um provider global
     async function fetchData() {
       setRecomendation(await apiAttributes('s', '', '/foods'));
     }
@@ -87,10 +100,16 @@ function DetailsDrinks(props) {
   }, [data]);
 
   useEffect(() => {
-    const test = JSON.parse(localStorage.getItem('doneRecipes'));
-    console.log(test);
-    test.forEach(({ id: idStorage }) => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const listInProgress = Object.keys(inProgressRecipes.cocktails);
+
+    doneRecipes.forEach(({ id: idStorage }) => {
       if (idStorage === id) setDisabled(true);
+    });
+
+    listInProgress.forEach((idStorage) => {
+      if (idStorage === id) setContinue(true);
     });
   }, [id]);
 
@@ -138,7 +157,15 @@ function DetailsDrinks(props) {
       <p data-testid="instructions">{strInstructions}</p>
       <CarouselRecommend arrayRecomendation={ arrayRecomendation.meals } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      {!isDisabled && (
+      {!isDisabled && continueRecipe ? (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="fixed-bottom"
+        >
+          Continue Recipe
+        </button>
+      ) : (
         <button
           type="button"
           data-testid="start-recipe-btn"
@@ -147,30 +174,6 @@ function DetailsDrinks(props) {
           Start Recipe
         </button>
       )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </section>
   );
 }

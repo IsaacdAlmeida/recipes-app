@@ -12,11 +12,13 @@ function DetailsFoods(props) {
   const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [isDisabled, setDisabled] = useState(false);
+  const [continueRecipe, setContinue] = useState(false);
 
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
+    // todo: Colocar em um provider global
     const requireApiFood = async () => {
       const URL_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       const dataApi = await fetch(URL_FOOD).then((response) => response.json());
@@ -26,6 +28,7 @@ function DetailsFoods(props) {
   }, [id]);
 
   useEffect(() => {
+    // todo: Colocar em um provider global
     async function fetchData() {
       setRecomendation(await apiAttributes('s', '', '/drinks'));
     }
@@ -62,10 +65,16 @@ function DetailsFoods(props) {
   }, [data]);
 
   useEffect(() => {
-    const test = JSON.parse(localStorage.getItem('doneRecipes'));
-    console.log(test);
-    test.forEach(({ id: idStorage }) => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const listInProgress = Object.keys(inProgressRecipes.cocktails);
+
+    doneRecipes.forEach(({ id: idStorage }) => {
       if (idStorage === id) setDisabled(true);
+    });
+
+    listInProgress.forEach((idStorage) => {
+      if (idStorage === id) setContinue(true);
     });
   }, [id]);
 
@@ -124,7 +133,15 @@ function DetailsFoods(props) {
       />
       <CarouselRecommend arrayRecomendation={ arrayRecomendation.drinks } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      {!isDisabled && (
+      {!isDisabled && continueRecipe ? (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="fixed-bottom"
+        >
+          Continue Recipe
+        </button>
+      ) : (
         <button
           type="button"
           data-testid="start-recipe-btn"
@@ -133,30 +150,6 @@ function DetailsFoods(props) {
           Start Recipe
         </button>
       )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </section>
   );
 }
