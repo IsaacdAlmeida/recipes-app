@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import heartIcon from '../images/whiteHeartIcon.svg';
+import CarouselRecommend from '../components/CarouselRecommend';
 import { apiAttributes } from '../services/themealdbApi';
 
 function DetailsFoods(props) {
@@ -9,25 +10,34 @@ function DetailsFoods(props) {
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
   const [arrayRecomendation, setRecomendation] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [isDisabled, setDisabled] = useState(false);
+
+  const { history: { location } } = props;
+  const id = location.pathname.split('/')[2];
 
   useEffect(() => {
-    const { history: { location } } = props;
-    const id = location.pathname.split('/')[2];
-
     const requireApiFood = async () => {
       const URL_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       const dataApi = await fetch(URL_FOOD).then((response) => response.json());
       setData(dataApi.meals[0]);
     };
     requireApiFood();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     async function fetchData() {
-      setRecomendation(await apiAttributes('s', '', '/drinks').drinks);
+      setRecomendation(await apiAttributes('s', '', '/drinks'));
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(arrayRecomendation).length !== 0
+      && Object.keys(data).length !== 0) {
+      setLoading(false);
+    }
+  }, [arrayRecomendation, data]);
 
   useEffect(() => {
     const arrayIngredient = [];
@@ -39,7 +49,7 @@ function DetailsFoods(props) {
     while (conditionalBool && count <= maxCount) {
       const keyIngredient = `strIngredient${count}`;
       const keyMeasure = `strMeasure${count}`;
-      if (data[keyIngredient] === '') {
+      if (data[keyIngredient] === '' || data[keyIngredient] === null) {
         conditionalBool = false;
         break;
       }
@@ -51,9 +61,16 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  console.log(arrayRecomendation);
+  useEffect(() => {
+    const test = JSON.parse(localStorage.getItem('doneRecipes'));
+    console.log(test);
+    test.forEach(({ id: idStorage }) => {
+      if (idStorage === id) setDisabled(true);
+    });
+  }, [id]);
+
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = data;
-  return (
+  return isLoading ? <p>Loading ...</p> : (
     <section>
       <img
         alt="img-recipe"
@@ -105,14 +122,17 @@ function DetailsFoods(props) {
         gyroscope; picture-in-picture` }
         allowFullcreen
       />
+      <CarouselRecommend arrayRecomendation={ arrayRecomendation.drinks } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="fixed-bottom"
-      >
-        Start Recipe
-      </button>
+      {!isDisabled && (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="fixed-bottom"
+        >
+          Start Recipe
+        </button>
+      )}
       <br />
       <br />
       <br />
