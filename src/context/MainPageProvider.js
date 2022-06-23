@@ -5,6 +5,8 @@ import requestFoods from '../services/requestFoods';
 import requestDrinks from '../services/requestDrinks';
 import requestFoodsCategories from '../services/requestFoodsCategories';
 import requestDrinksCategories from '../services/requestDrinksCategories';
+import requestFoodsFromCategories from '../services/requestFoodsFromCategories';
+import requestDrinksFromCategories from '../services/requestDrinksFromCategories';
 
 function MainPageProvider({ children }) {
   const MAX_RECIPE_NUMBER = 12;
@@ -31,7 +33,6 @@ function MainPageProvider({ children }) {
     const categoriesFoodsArraySliced = categoriesFoodsArray
       .slice(0, MAX_CATEGORIES_NUMBER);
     setFoodsCategories(categoriesFoodsArraySliced);
-    console.log(categoriesFoodsArraySliced);
   };
 
   const drinksCategoriesSliced = async () => {
@@ -57,11 +58,27 @@ function MainPageProvider({ children }) {
     drinksCategoriesSliced();
   }, []);
 
+  const handleCategoriesFoodsFilter = async (category) => {
+    const categoriesFoodsFiltered = await requestFoodsFromCategories(category);
+    const categoriesFromFoodsSliced = categoriesFoodsFiltered
+      .slice(0, MAX_RECIPE_NUMBER);
+    setFoods(categoriesFromFoodsSliced);
+  };
+
+  const handleCategoriesDrinksFilter = async (category) => {
+    const categoriesDrinksFiltered = await requestDrinksFromCategories(category);
+    const categoriesFromDrinksSliced = categoriesDrinksFiltered
+      .slice(0, MAX_RECIPE_NUMBER);
+    setDrinks(categoriesFromDrinksSliced);
+  };
+
   const context = {
     foods,
     drinks,
     foodsCategories,
     drinksCategories,
+    handleCategoriesFoodsFilter,
+    handleCategoriesDrinksFilter,
   };
 
   return (

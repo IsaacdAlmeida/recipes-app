@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MainPageContext from '../context/MainPageContext';
 import Header from '../components/Header';
 import RecipeCard from '../components/RecipeCard';
-import ButtonCategoriesFilter from '../components/ButtonCategoriesFilter';
+import ButtonCategoriesFoodsFilter from '../components/ButtonCategoriesFoodsFilter';
 
 function Foods() {
   const { foods } = useContext(MainPageContext);
@@ -12,7 +12,7 @@ function Foods() {
         <Header pageName="Foods" />
       </div>
       <div>
-        <ButtonCategoriesFilter category="foodsCategories" />
+        <ButtonCategoriesFoodsFilter />
       </div>
       <div>
         { foods.map((item, index) => (

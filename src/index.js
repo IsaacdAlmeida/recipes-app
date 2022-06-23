@@ -13,9 +13,9 @@ ReactDOM.render(
     <DoneRecipesProvider>
       <HeaderProvider>
         <RecipesProvider>
-          <ExplorerProvider>
-            <App />
-          </ExplorerProvider>
+          {/* <ExplorerProvider> */}
+          <App />
+          {/* </ExplorerProvider> */}
         </RecipesProvider>
       </HeaderProvider>
     </DoneRecipesProvider>
