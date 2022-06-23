@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import MainPageContext from './MainPageContext';
 import requestFoods from '../services/requestFoods';
 import requestDrinks from '../services/requestDrinks';
+import requestFoodsCategories from '../services/requestFoodsCategories';
+import requestDrinksCategories from '../services/requestDrinksCategories';
 
 function MainPageProvider({ children }) {
   const MAX_RECIPE_NUMBER = 12;
+  const MAX_CATEGORIES_NUMBER = 5;
   const [foods, setFoods] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [foodsCategories, setFoodsCategories] = useState([]);
+  const [drinksCategories, setDrinksCategories] = useState([]);
 
   const foodsArraySliced = async () => {
     const foodsArray = await requestFoods();
@@ -21,6 +26,21 @@ function MainPageProvider({ children }) {
     setDrinks(drinksSliced);
   };
 
+  const foodsCategoriesSliced = async () => {
+    const categoriesFoodsArray = await requestFoodsCategories();
+    const categoriesFoodsArraySliced = categoriesFoodsArray
+      .slice(0, MAX_CATEGORIES_NUMBER);
+    setFoodsCategories(categoriesFoodsArraySliced);
+    console.log(categoriesFoodsArraySliced);
+  };
+
+  const drinksCategoriesSliced = async () => {
+    const categoriesDrinksArray = await requestDrinksCategories();
+    const categoriesDrinksArraySliced = categoriesDrinksArray
+      .slice(0, MAX_CATEGORIES_NUMBER);
+    setDrinksCategories(categoriesDrinksArraySliced);
+  };
+
   useEffect(() => {
     foodsArraySliced();
   }, []);
@@ -29,9 +49,19 @@ function MainPageProvider({ children }) {
     drinksArraySliced();
   }, []);
 
+  useEffect(() => {
+    foodsCategoriesSliced();
+  }, []);
+
+  useEffect(() => {
+    drinksCategoriesSliced();
+  }, []);
+
   const context = {
     foods,
     drinks,
+    foodsCategories,
+    drinksCategories,
   };
 
   return (
