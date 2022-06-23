@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 function Profile() {
-  const viewEmail = JSON.parse(localStorage.getItem('user'));
+  const viewEmail = JSON.parse(localStorage.getItem('user')) || [];
 
   const clearStorage = () => {
     localStorage.clear();
