@@ -4,7 +4,8 @@ async function requestDrinks() {
   try {
     const request = await fetch(URL);
     const data = await request.json();
-    return data.meals;
+    const arrayOfDrinks = data.drinks;
+    return arrayOfDrinks;
   } catch (error) {
     console.log(error);
   }

@@ -16,6 +16,7 @@ function Foods() {
             <RecipeCard
               foods={ item }
               index={ index }
+              drinks={ undefined }
             />
           </div>
         )) }
