@@ -24,7 +24,6 @@ async function api(site, modulo, type, attribute) {
 
 // Req 14 e 15
 export const apiAttributes = async (typeSearch, attributes, pathName) => {
-  console.log(pathName);
   // Bloco comidas
   if (pathName === '/foods') {
     if (typeSearch === 'f' || typeSearch === 's') {
@@ -35,4 +34,17 @@ export const apiAttributes = async (typeSearch, attributes, pathName) => {
   if (typeSearch === 'f' || typeSearch === 's') {
     return api('thecocktaildb', 'search', typeSearch, attributes);
   } return api('thecocktaildb', 'filter', typeSearch, attributes);
+};
+
+// Req 74 - Função recebe o site que será utilizado,
+// e assim montamos a URL completa da API
+export const randomApi = async (site) => {
+  const URL = `https://www.${site}.com/api/json/v1/1/random.php`;
+  console.log(URL);
+  try {
+    const data = await fetch(URL).then((response) => response.json());
+    return data;
+  } catch (e) {
+    return e;
+  }
 };
