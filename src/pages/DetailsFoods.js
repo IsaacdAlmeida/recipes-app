@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import shareIcon from '../images/shareIcon.svg';
-import heartIcon from '../images/whiteHeartIcon.svg';
 import CarouselRecommend from '../components/CarouselRecommend';
 import { apiAttributes } from '../services/themealdbApi';
+import doneRecipesContext from '../context/doneRecipesContext';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function DetailsFoods(props) {
+  const { clipboard } = useContext(doneRecipesContext);
+
   const [data, setData] = useState({});
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
@@ -13,8 +17,9 @@ function DetailsFoods(props) {
   const [isLoading, setLoading] = useState(true);
   const [isDisabled, setDisabled] = useState(false);
   const [continueRecipe, setContinue] = useState(false);
+  const [isFavorite, setFavorite] = useState(false);
 
-  const { history: { location } } = props;
+  const { history: { location, push } } = props;
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -78,6 +83,10 @@ function DetailsFoods(props) {
     });
   }, [id]);
 
+  const redirectToInProgress = () => {
+    push(`/foods/${id}/in-progress`);
+  };
+
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = data;
   return isLoading ? <p>Loading ...</p> : (
     <section>
@@ -94,18 +103,29 @@ function DetailsFoods(props) {
       </h2>
       <input
         type="image"
-        alt="share-icon-button"
         data-testid="share-btn"
         src={ shareIcon }
-        onClick={ () => console.log('Icon share') }
+        onClick={ clipboard }
+        value={ `http://localhost:3000/drinks/${id}` }
+        alt="share button"
       />
-      <input
-        type="image"
-        alt="favorite-icon-button"
-        data-testid="favorite-btn"
-        src={ heartIcon }
-        onClick={ () => console.log('Icon favorite') }
-      />
+      {!isFavorite ? (
+        <input
+          data-testid="favorite-btn"
+          type="image"
+          alt="favorite-icon-button"
+          src={ whiteHeartIcon }
+          onClick={ () => setFavorite(true) }
+        />
+      ) : (
+        <input
+          data-testid="favorite-btn"
+          type="image"
+          alt="favorite-icon-button"
+          src={ blackHeartIcon }
+          onClick={ () => setFavorite(false) }
+        />
+      )}
       <p data-testid="recipe-category">{strCategory}</p>
       <h3>Ingredients</h3>
       <ul>
@@ -138,6 +158,7 @@ function DetailsFoods(props) {
           type="button"
           data-testid="start-recipe-btn"
           className="fixed-bottom"
+          onClick={ redirectToInProgress }
         >
           Continue Recipe
         </button>
@@ -146,6 +167,7 @@ function DetailsFoods(props) {
           type="button"
           data-testid="start-recipe-btn"
           className="fixed-bottom"
+          onClick={ redirectToInProgress }
         >
           Start Recipe
         </button>
@@ -157,6 +179,7 @@ function DetailsFoods(props) {
 DetailsFoods.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
+    push: PropType.func.isRequired,
   }).isRequired,
 };
 

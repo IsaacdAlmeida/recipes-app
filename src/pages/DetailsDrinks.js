@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import shareIcon from '../images/shareIcon.svg';
-import heartIcon from '../images/whiteHeartIcon.svg';
 import { apiAttributes } from '../services/themealdbApi';
 import CarouselRecommend from '../components/CarouselRecommend';
+import doneRecipesContext from '../context/doneRecipesContext';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 // const doneRecipes = [
 //   {
@@ -40,6 +42,8 @@ import CarouselRecommend from '../components/CarouselRecommend';
 // };
 
 function DetailsDrinks(props) {
+  const { clipboard } = useContext(doneRecipesContext);
+
   const [data, setData] = useState({});
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
@@ -47,9 +51,10 @@ function DetailsDrinks(props) {
   const [isLoading, setLoading] = useState(true);
   const [isDisabled, setDisabled] = useState(false);
   const [continueRecipe, setContinue] = useState(false);
+  const [isFavorite, setFavorite] = useState(false);
   // localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
 
-  const { history: { location } } = props;
+  const { history: { location, push } } = props;
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -113,6 +118,10 @@ function DetailsDrinks(props) {
     });
   }, [id]);
 
+  const redirectToInProgress = () => {
+    push(`/foods/${id}/in-progress`);
+  };
+
   const { strDrinkThumb, strDrink, strAlcoholic, strInstructions } = data;
   return isLoading ? <p>Loading ...</p> : (
     <section>
@@ -129,18 +138,29 @@ function DetailsDrinks(props) {
       </h2>
       <input
         type="image"
-        alt="share-icon-button"
         data-testid="share-btn"
         src={ shareIcon }
-        onClick={ () => console.log('Icon share') }
+        onClick={ clipboard }
+        value={ `http://localhost:3000/drinks/${id}` }
+        alt="share button"
       />
-      <input
-        type="image"
-        alt="favorite-icon-button"
-        data-testid="favorite-btn"
-        src={ heartIcon }
-        onClick={ () => console.log('Icon favorite') }
-      />
+      {!isFavorite ? (
+        <input
+          data-testid="favorite-btn"
+          type="image"
+          alt="favorite-icon-button"
+          src={ whiteHeartIcon }
+          onClick={ () => setFavorite(true) }
+        />
+      ) : (
+        <input
+          data-testid="favorite-btn"
+          type="image"
+          alt="favorite-icon-button"
+          src={ blackHeartIcon }
+          onClick={ () => setFavorite(false) }
+        />
+      )}
       <p data-testid="recipe-category">{strAlcoholic}</p>
       <h3>Ingredients</h3>
       <ul>
@@ -162,6 +182,7 @@ function DetailsDrinks(props) {
           type="button"
           data-testid="start-recipe-btn"
           className="fixed-bottom"
+          onClick={ redirectToInProgress }
         >
           Continue Recipe
         </button>
@@ -170,6 +191,7 @@ function DetailsDrinks(props) {
           type="button"
           data-testid="start-recipe-btn"
           className="fixed-bottom"
+          onClick={ redirectToInProgress }
         >
           Start Recipe
         </button>
@@ -181,6 +203,7 @@ function DetailsDrinks(props) {
 DetailsDrinks.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
+    push: PropType.func.isRequired,
   }).isRequired,
 };
 
