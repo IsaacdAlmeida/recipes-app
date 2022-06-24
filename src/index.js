@@ -6,14 +6,17 @@ import * as serviceWorker from './serviceWorker';
 import DoneRecipesProvider from './context/doneRecipesProvider';
 import MainProvider from './context/MainProvider';
 import ExplorerProvider from './context/exploreProvider';
+import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 
 ReactDOM.render(
   <MainProvider>
-    <DoneRecipesProvider>
-      <ExplorerProvider>
-        <App />
-      </ExplorerProvider>
-    </DoneRecipesProvider>
+    <FavoriteRecipesProvider>
+      <DoneRecipesProvider>
+        <ExplorerProvider>
+          <App />
+        </ExplorerProvider>
+      </DoneRecipesProvider>
+    </FavoriteRecipesProvider>
   </MainProvider>,
 
   document.getElementById('root'),
