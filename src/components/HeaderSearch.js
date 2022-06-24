@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import headerContext from '../context/headerContext';
-import searchContext from '../context/searchContext';
+import MainContext from '../context/MainContext';
 
 const QUANTITY_OF_ITEM = 12;
 
@@ -10,11 +9,10 @@ function HeaderSearch() {
     typeSearch,
     drinkApi,
     mealApi,
-    handleChange,
+    handleChangeRadio,
     sendSearch,
-  } = useContext(searchContext); // Recupera as informações do Provider
-
-  const { search } = useContext(headerContext);
+    search,
+  } = useContext(MainContext); // Recupera as informações do Provider
 
   const { push, location: { pathname } } = useHistory(); // pega a rota da pagina, se esta em drinks ou foods
 
@@ -37,7 +35,7 @@ function HeaderSearch() {
           type="radio"
           name="attributos"
           value="i"
-          onChange={ handleChange }
+          onChange={ handleChangeRadio }
           id="ingredients"
         />
       </label>
@@ -48,7 +46,7 @@ function HeaderSearch() {
           type="radio"
           name="attributos"
           value="s"
-          onChange={ handleChange }
+          onChange={ handleChangeRadio }
           id="name"
         />
       </label>
@@ -59,7 +57,7 @@ function HeaderSearch() {
           type="radio"
           name="attributos"
           value="f"
-          onChange={ handleChange }
+          onChange={ handleChangeRadio }
           id="letter"
         />
       </label>

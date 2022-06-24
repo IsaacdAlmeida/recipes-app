@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import headerContext from '../context/headerContext';
+import MainContext from '../context/MainContext';
 import HeaderSearch from './HeaderSearch';
 
 // useState provisório enquanto não cria o provider necessário
 
 function Header({ pageName, isEnable }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { handleChange, search } = useContext(headerContext);
+  const { handleChange, search } = useContext(MainContext);
   return (
     <div>
       <Link to="/profile">

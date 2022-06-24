@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import MainPageContext from '../context/MainPageContext';
+import MainContext from '../context/MainContext';
 
 function ButtonCategoriesDrinksFilter() {
   const {
     drinksCategories,
     handleCategoriesDrinksFilter,
-  } = useContext(MainPageContext);
+  } = useContext(MainContext);
 
   return (
     drinksCategories.map((item, index) => (

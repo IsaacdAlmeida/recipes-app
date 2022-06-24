@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import Header from '../components/Header';
-import MainPageContext from '../context/MainPageContext';
+import MainContext from '../context/MainContext';
 import RecipeCard from '../components/RecipeCard';
 import ButtonCategoriesDrinksFilter from '../components/ButtonCategoriesDrinksFilter';
 
 function Drinks() {
-  const { drinks } = useContext(MainPageContext);
+  const { drinks } = useContext(MainContext);
 
   return (
     <div>
