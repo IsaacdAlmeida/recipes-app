@@ -10,7 +10,8 @@ function FavoriteRecipes() {
     filtered,
     clipboard,
     indexMessage,
-    filterRecipes } = useContext(favoriteRecipesContext);
+    filterRecipes,
+    unfavoriteBtn } = useContext(favoriteRecipesContext);
 
   return (
     <div>
@@ -60,6 +61,7 @@ function FavoriteRecipes() {
             src={ blackHeartIcon }
             id={ index }
             alt="favorite button"
+            onClick={ unfavoriteBtn }
           />
           <Link to={ `/${recipes.type}s/${recipes.id}` }>
             <p data-testid={ `${index}-horizontal-name` }>

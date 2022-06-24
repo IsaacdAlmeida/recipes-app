@@ -22,11 +22,20 @@ function FavoriteRecipesProvider({ children }) {
     }));
   }
 
+  function unfavoriteBtn({ target }) {
+    const removeRecipe = target.parentNode;
+    removeRecipe.remove();
+    // const Storage = localStorage.getItem('favoriteRecipes');
+    // const newStorage = JSON.parse(Storage).filter((e) => e !== target);
+    // localStorage.setItem('favoriteRecipes', newStorage);
+  }
+
   const contextValue = {
     filtered,
     indexMessage,
     clipboard,
     filterRecipes,
+    unfavoriteBtn,
   };
 
   return (
