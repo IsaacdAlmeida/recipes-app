@@ -116,59 +116,11 @@ function MainProvider({ children }) {
 
   /* ----------------------<Details>---------------------------------- */
 
-  const [data, setData] = useState({});
-  const [arrayRecomendation, setRecomendation] = useState([]);
-  const [id, setId] = useState('');
-  const [isLoading, setLoading] = useState(true);
-  const [arrayIngredients, setIngredient] = useState([]);
-  const [arrayMeasures, setMeasure] = useState([]);
-
-  useEffect(() => {
-    // todo: Colocar em um provider global
-    const requireApiFood = async () => {
-      const URL_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const dataApi = await fetch(URL_FOOD).then((response) => response.json());
-      setData(dataApi.meals[0]);
-    };
-    requireApiFood();
-  }, [id]);
-
-  useEffect(() => {
-    // todo: Colocar em um provider global
-    async function fetchData() {
-      setRecomendation(await apiAttributes('s', '', '/drinks'));
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(arrayRecomendation).length !== 0
-      && Object.keys(data).length !== 0) {
-      setLoading(false);
-    }
-  }, [arrayRecomendation, data]);
-
-  useEffect(() => {
-    const arrayIngredient = [];
-    const arrayMeasure = [];
-    const maxCount = 20;
-    let conditionalBool = true;
-    let count = 1;
-
-    while (conditionalBool && count <= maxCount) {
-      const keyIngredient = `strIngredient${count}`;
-      const keyMeasure = `strMeasure${count}`;
-      if (data[keyIngredient] === '' || data[keyIngredient] === null) {
-        conditionalBool = false;
-        break;
-      }
-      arrayIngredient.push(keyIngredient);
-      arrayMeasure.push(keyMeasure);
-      count += 1;
-    }
-    setIngredient(arrayIngredient);
-    setMeasure(arrayMeasure);
-  }, [data]);
+  const setRecipeFavorite = (newFavoriteRecipe) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
+    localStorage.setItem('favoriteRecipes', newFavoriteRecipes);
+  };
 
   const context = {
     foods,
@@ -184,12 +136,7 @@ function MainProvider({ children }) {
     mealApi,
     sendSearch,
     handleChangeRadio,
-    data,
-    arrayRecomendation,
-    setId,
-    isLoading,
-    arrayIngredients,
-    arrayMeasures,
+    setRecipeFavorite,
   };
 
   return (

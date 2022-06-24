@@ -2,41 +2,61 @@ import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
 import CarouselRecommend from '../components/CarouselRecommend';
 import doneRecipesContext from '../context/doneRecipesContext';
-import MainContext from '../context/MainContext';
 import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import FavoriteIcon from '../components/FavoriteIcon';
+import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
 function DetailsFoods(props) {
   const { clipboard } = useContext(doneRecipesContext);
-  const { data, arrayRecomendation, setId, isLoading,
-    arrayIngredients, arrayMeasures } = useContext(MainContext);
 
-  const [isDisabled, setDisabled] = useState(false);
-  const [continueRecipe, setContinue] = useState(false);
-  const [isFavorite, setFavorite] = useState(false);
+  const [data, setData] = useState({});
+  const [arrayRecomendation, setRecomendation] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [arrayIngredients, setIngredient] = useState([]);
+  const [arrayMeasures, setMeasure] = useState([]);
 
-  const { history: { location, push } } = props;
+  const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
-  setId(id);
+  // setId(id);
 
   useEffect(() => {
-    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const listInProgress = Object.keys(inProgressRecipes.cocktails);
-
-    doneRecipes.forEach(({ id: idStorage }) => {
-      if (idStorage === id) setDisabled(true);
-    });
-
-    listInProgress.forEach((idStorage) => {
-      if (idStorage === id) setContinue(true);
-    });
+    async function fetchData() {
+      setRecomendation(await apiAttributes('s', '', '/drinks'));
+      setData(await requireApiFood('themealdb', id, 'meals'));
+    }
+    fetchData();
   }, [id]);
 
-  const redirectToInProgress = () => {
-    push(`/foods/${id}/in-progress`);
-  };
+  useEffect(() => {
+    if (Object.keys(arrayRecomendation).length !== 0
+      && Object.keys(data).length !== 0) {
+      setLoading(false);
+    }
+  }, [arrayRecomendation, data]);
+
+  useEffect(() => {
+    /* provavelmete colocarei essa parte em um componente */
+    const arrayIngredient = [];
+    const arrayMeasure = [];
+    const maxCount = 20;
+    let conditionalBool = true;
+    let count = 1;
+
+    while (conditionalBool && count <= maxCount) {
+      const keyIngredient = `strIngredient${count}`;
+      const keyMeasure = `strMeasure${count}`;
+      if (data[keyIngredient] === '' || data[keyIngredient] === null) {
+        conditionalBool = false;
+        break;
+      }
+      arrayIngredient.push(keyIngredient);
+      arrayMeasure.push(keyMeasure);
+      count += 1;
+    }
+    setIngredient(arrayIngredient);
+    setMeasure(arrayMeasure);
+  }, [data]);
 
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = data;
   return isLoading ? <p>Loading ...</p> : (
@@ -60,26 +80,11 @@ function DetailsFoods(props) {
         value={ `http://localhost:3000/drinks/${id}` }
         alt="share button"
       />
-      {!isFavorite ? (
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          alt="favorite-icon-button"
-          src={ whiteHeartIcon }
-          onClick={ () => setFavorite(true) }
-        />
-      ) : (
-        <input
-          data-testid="favorite-btn"
-          type="image"
-          alt="favorite-icon-button"
-          src={ blackHeartIcon }
-          onClick={ () => setFavorite(false) }
-        />
-      )}
+      <FavoriteIcon />
       <p data-testid="recipe-category">{strCategory}</p>
       <h3>Ingredients</h3>
       <ul>
+        {/* provavelmete colocarei essa parte em um componente */}
         {arrayIngredients.map((ingredient, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -100,29 +105,10 @@ function DetailsFoods(props) {
         frameBorder="0"
         allow={ `accelerometer; autoplay; clipboard-write; encrypted-media;
         gyroscope; picture-in-picture` }
-        allowFullcreen
       />
       <CarouselRecommend arrayRecomendation={ arrayRecomendation.drinks } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      {!isDisabled && continueRecipe ? (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="fixed-bottom"
-          onClick={ redirectToInProgress }
-        >
-          Continue Recipe
-        </button>
-      ) : (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="fixed-bottom"
-          onClick={ redirectToInProgress }
-        >
-          Start Recipe
-        </button>
-      )}
+      <ButtonFixedRecipes />
     </section>
   );
 }
@@ -130,7 +116,6 @@ function DetailsFoods(props) {
 DetailsFoods.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
-    push: PropType.func.isRequired,
   }).isRequired,
 };
 
