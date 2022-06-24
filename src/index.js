@@ -8,6 +8,7 @@ import HeaderProvider from './context/headerProvider';
 import DoneRecipesProvider from './context/doneRecipesProvider';
 import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 import MainPageProvider from './context/MainPageProvider';
+import ExplorerProvider from './context/exploreProvider';
 
 ReactDOM.render(
   <MainPageProvider>
