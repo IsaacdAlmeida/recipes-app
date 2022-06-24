@@ -35,6 +35,7 @@ function DoneRecipes() {
       >
         Drinks
       </button>
+      {console.log(filtered)}
       { filtered && filtered.map((recipes, index) => (
         <div key={ recipes.id }>
           {/* Req 56 - copiado a msm logica aplicada pelo Issac no component Header */ }

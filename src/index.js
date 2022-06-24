@@ -6,19 +6,23 @@ import * as serviceWorker from './serviceWorker';
 import RecipesProvider from './context/searchProvider';
 import HeaderProvider from './context/headerProvider';
 import DoneRecipesProvider from './context/doneRecipesProvider';
+import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 import MainPageProvider from './context/MainPageProvider';
+import ExplorerProvider from './context/exploreProvider';
 
 ReactDOM.render(
   <MainPageProvider>
-    <DoneRecipesProvider>
-      <HeaderProvider>
-        <RecipesProvider>
-          <ExplorerProvider>
-            <App />
-          </ExplorerProvider>
-        </RecipesProvider>
-      </HeaderProvider>
-    </DoneRecipesProvider>
+    <FavoriteRecipesProvider>
+      <DoneRecipesProvider>
+        <HeaderProvider>
+          <RecipesProvider>
+            <ExplorerProvider>
+              <App />
+            </ExplorerProvider>
+          </RecipesProvider>
+        </HeaderProvider>
+      </DoneRecipesProvider>
+    </FavoriteRecipesProvider>
   </MainPageProvider>,
 
   document.getElementById('root'),
