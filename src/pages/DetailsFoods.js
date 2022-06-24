@@ -1,73 +1,24 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
 import CarouselRecommend from '../components/CarouselRecommend';
-import { apiAttributes } from '../services/themealdbApi';
 import doneRecipesContext from '../context/doneRecipesContext';
+import MainContext from '../context/MainContext';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function DetailsFoods(props) {
   const { clipboard } = useContext(doneRecipesContext);
+  const { data, arrayRecomendation, setId, isLoading,
+    arrayIngredients, arrayMeasures } = useContext(MainContext);
 
-  const [data, setData] = useState({});
-  const [arrayIngredients, setIngredient] = useState([]);
-  const [arrayMeasures, setMeasure] = useState([]);
-  const [arrayRecomendation, setRecomendation] = useState([]);
-  const [isLoading, setLoading] = useState(true);
   const [isDisabled, setDisabled] = useState(false);
   const [continueRecipe, setContinue] = useState(false);
   const [isFavorite, setFavorite] = useState(false);
 
   const { history: { location, push } } = props;
   const id = location.pathname.split('/')[2];
-
-  useEffect(() => {
-    // todo: Colocar em um provider global
-    const requireApiFood = async () => {
-      const URL_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const dataApi = await fetch(URL_FOOD).then((response) => response.json());
-      setData(dataApi.meals[0]);
-    };
-    requireApiFood();
-  }, [id]);
-
-  useEffect(() => {
-    // todo: Colocar em um provider global
-    async function fetchData() {
-      setRecomendation(await apiAttributes('s', '', '/drinks'));
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(arrayRecomendation).length !== 0
-      && Object.keys(data).length !== 0) {
-      setLoading(false);
-    }
-  }, [arrayRecomendation, data]);
-
-  useEffect(() => {
-    const arrayIngredient = [];
-    const arrayMeasure = [];
-    const maxCount = 20;
-    let conditionalBool = true;
-    let count = 1;
-
-    while (conditionalBool && count <= maxCount) {
-      const keyIngredient = `strIngredient${count}`;
-      const keyMeasure = `strMeasure${count}`;
-      if (data[keyIngredient] === '' || data[keyIngredient] === null) {
-        conditionalBool = false;
-        break;
-      }
-      arrayIngredient.push(keyIngredient);
-      arrayMeasure.push(keyMeasure);
-      count += 1;
-    }
-    setIngredient(arrayIngredient);
-    setMeasure(arrayMeasure);
-  }, [data]);
+  setId(id);
 
   useEffect(() => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));

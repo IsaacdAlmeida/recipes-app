@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
-import MainPageContext from '../context/MainPageContext';
+import MainContext from '../context/MainContext';
 import Header from '../components/Header';
 import RecipeCard from '../components/RecipeCard';
-import ButtonCategoriesFilter from '../components/ButtonCategoriesFilter';
+import ButtonCategoriesFoodsFilter from '../components/ButtonCategoriesFoodsFilter';
 
 function Foods() {
-  const { foods } = useContext(MainPageContext);
+  const { foods } = useContext(MainContext);
   return (
     <div>
       <div>
         <Header pageName="Foods" />
       </div>
       <div>
-        <ButtonCategoriesFilter category="foodsCategories" />
+        <ButtonCategoriesFoodsFilter />
       </div>
       <div>
         { foods.map((item, index) => (

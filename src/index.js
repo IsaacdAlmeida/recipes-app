@@ -3,24 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import RecipesProvider from './context/searchProvider';
-import HeaderProvider from './context/headerProvider';
 import DoneRecipesProvider from './context/doneRecipesProvider';
-import MainPageProvider from './context/MainPageProvider';
+import MainProvider from './context/MainProvider';
 import ExplorerProvider from './context/exploreProvider';
+import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 
 ReactDOM.render(
-  <MainPageProvider>
-    <DoneRecipesProvider>
-      <HeaderProvider>
-        <RecipesProvider>
-          <ExplorerProvider>
-            <App />
-          </ExplorerProvider>
-        </RecipesProvider>
-      </HeaderProvider>
-    </DoneRecipesProvider>
-  </MainPageProvider>,
+  <MainProvider>
+    <FavoriteRecipesProvider>
+      <DoneRecipesProvider>
+        <ExplorerProvider>
+          <App />
+        </ExplorerProvider>
+      </DoneRecipesProvider>
+    </FavoriteRecipesProvider>
+  </MainProvider>,
 
   document.getElementById('root'),
 );
