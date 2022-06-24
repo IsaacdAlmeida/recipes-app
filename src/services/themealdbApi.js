@@ -13,7 +13,6 @@ async function api(site, modulo, type, attribute) {
   // modulo (filter or search)
   // type(i = ingredient, f = first letter, s = name)
   const URL = `https://www.${site}.com/api/json/v1/1/${modulo}.php?${type}=${attribute}`;
-  console.log(URL);
   try {
     const data = await fetch(URL).then((response) => response.json());
     return data;
@@ -40,7 +39,30 @@ export const apiAttributes = async (typeSearch, attributes, pathName) => {
 // e assim montamos a URL completa da API
 export const randomApi = async (site) => {
   const URL = `https://www.${site}.com/api/json/v1/1/random.php`;
-  console.log(URL);
+  try {
+    const data = await fetch(URL).then((response) => response.json());
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
+
+// Req 76 - Retorna os ingredientes, dependento da receita(food ou drink)
+export const getIngredient = async (site) => {
+  const URL = `https://www.${site}.com/api/json/v1/1/list.php?i=list`;
+  try {
+    const data = await fetch(URL).then((response) => response.json());
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
+
+// Req 77 - Retorna as receitas do ingrediente clicado na tela explore
+// Pretendo remove-lo, mas preciso avalidar as demais Api's pois acredito que de
+// para utilizar alguma outra
+export const getIdRecipes = async (site, attribute) => {
+  const URL = `https://www.${site}.com/api/json/v1/1/filter.php?i=${attribute}`;
   try {
     const data = await fetch(URL).then((response) => response.json());
     return data;
