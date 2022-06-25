@@ -118,8 +118,17 @@ function MainProvider({ children }) {
 
   const setRecipeFavorite = (newFavoriteRecipe) => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
-    localStorage.setItem('favoriteRecipes', newFavoriteRecipes);
+    if (favoriteRecipes.length !== 0) {
+      if (favoriteRecipes.some(({ id }) => id !== newFavoriteRecipe.id)) {
+        const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+      } else {
+        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      }
+    } else {
+      const newFavoriteRecipes = [newFavoriteRecipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    }
   };
 
   const context = {

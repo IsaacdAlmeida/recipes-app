@@ -58,7 +58,19 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = data;
+  const { strMealThumb, strMeal, strCategory, strInstructions,
+    strYoutube, strArea } = data;
+
+  const objFavorite = {
+    id,
+    type: 'food',
+    nationality: strArea,
+    category: strCategory,
+    alcoholicOrNot: '',
+    name: strMeal,
+    image: strMealThumb,
+  };
+
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <img
@@ -80,7 +92,7 @@ function DetailsFoods(props) {
         value={ `http://localhost:3000/drinks/${id}` }
         alt="share button"
       />
-      <FavoriteIcon />
+      <FavoriteIcon data={ objFavorite } />
       <p data-testid="recipe-category">{strCategory}</p>
       <h3>Ingredients</h3>
       <ul>

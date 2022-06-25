@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+const DEFAULT_STORAGE = { cocktails: {}, meals: {} };
+
 function ButtonFixedRecipes() {
   const { push, location: { pathname } } = useHistory();
 
@@ -12,7 +14,9 @@ function ButtonFixedRecipes() {
   const id = pathname.split('/')[2];
 
   useEffect(() => {
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+      || DEFAULT_STORAGE;
+
     if (way === 'foods') {
       setList(Object.keys(inProgressRecipes.meals));
     } else if (way === 'drinks') {
@@ -24,16 +28,11 @@ function ButtonFixedRecipes() {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
     doneRecipes.forEach(({ id: idStorage }) => {
-      if (idStorage === id) {
-        console.log('12');
-        setDisabled(true);
-      }
+      if (idStorage === id) setDisabled(true);
     });
 
     listInProgress.forEach((idStorage) => {
-      if (idStorage === id) {
-        setContinue(true);
-      }
+      if (idStorage === id) setContinue(true);
     });
   }, [id, listInProgress]);
 
