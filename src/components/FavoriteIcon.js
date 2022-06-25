@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropType from 'prop-types';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -8,6 +8,15 @@ function FavoriteIcon({ data }) {
   const { setRecipeFavorite } = useContext(MainContext);
 
   const [isFavoriteIcon, setIconFavorite] = useState(false);
+
+  useEffect(() => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+
+    if (favoriteRecipes.length !== 0
+      && favoriteRecipes.some(({ id }) => id === data.id)) {
+      setIconFavorite(true);
+    }
+  }, [data]);
 
   const handleFavorite = () => {
     setRecipeFavorite(data);

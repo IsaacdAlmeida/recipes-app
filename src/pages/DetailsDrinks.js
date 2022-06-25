@@ -71,7 +71,6 @@ function DetailsDrinks(props) {
     name: strDrink,
     image: strDrinkThumb,
   };
-  console.log(data);
 
   return isLoading ? <p>Loading ...</p> : (
     <section>
