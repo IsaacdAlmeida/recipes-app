@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import shareIcon from '../images/shareIcon.svg';
-import heartIcon from '../images/whiteHeartIcon.svg';
 import CarouselRecommend from '../components/CarouselRecommend';
-import { apiAttributes } from '../services/themealdbApi';
+import doneRecipesContext from '../context/doneRecipesContext';
+import shareIcon from '../images/shareIcon.svg';
+import FavoriteIcon from '../components/FavoriteIcon';
+import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
 function DetailsFoods(props) {
+  const { clipboard, indexMessage } = useContext(doneRecipesContext);
+
   const [data, setData] = useState({});
-  const [arrayIngredients, setIngredient] = useState([]);
-  const [arrayMeasures, setMeasure] = useState([]);
   const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [isDisabled, setDisabled] = useState(false);
+  const [arrayIngredients, setIngredient] = useState([]);
+  const [arrayMeasures, setMeasure] = useState([]);
 
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
-
-  useEffect(() => {
-    const requireApiFood = async () => {
-      const URL_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const dataApi = await fetch(URL_FOOD).then((response) => response.json());
-      setData(dataApi.meals[0]);
-    };
-    requireApiFood();
-  }, [id]);
+  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
       setRecomendation(await apiAttributes('s', '', '/drinks'));
+      setData(await requireApiFood('themealdb', id, 'meals'));
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (Object.keys(arrayRecomendation).length !== 0
@@ -40,6 +36,7 @@ function DetailsFoods(props) {
   }, [arrayRecomendation, data]);
 
   useEffect(() => {
+    /* provavelmete colocarei essa parte em um componente */
     const arrayIngredient = [];
     const arrayMeasure = [];
     const maxCount = 20;
@@ -61,15 +58,19 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  useEffect(() => {
-    const test = JSON.parse(localStorage.getItem('doneRecipes'));
-    console.log(test);
-    test.forEach(({ id: idStorage }) => {
-      if (idStorage === id) setDisabled(true);
-    });
-  }, [id]);
+  const { strMealThumb, strMeal, strCategory, strInstructions,
+    strYoutube, strArea } = data;
 
-  const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = data;
+  const objFavorite = {
+    id,
+    type: 'food',
+    nationality: strArea,
+    category: strCategory,
+    alcoholicOrNot: '',
+    name: strMeal,
+    image: strMealThumb,
+  };
+
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <img
@@ -85,21 +86,19 @@ function DetailsFoods(props) {
       </h2>
       <input
         type="image"
-        alt="share-icon-button"
         data-testid="share-btn"
         src={ shareIcon }
-        onClick={ () => console.log('Icon share') }
+        onClick={ clipboard }
+        value={ `http://localhost:3000/foods/${id}` }
+        alt="share button"
+        id={ id }
       />
-      <input
-        type="image"
-        alt="favorite-icon-button"
-        data-testid="favorite-btn"
-        src={ heartIcon }
-        onClick={ () => console.log('Icon favorite') }
-      />
+      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
+      <FavoriteIcon data={ objFavorite } />
       <p data-testid="recipe-category">{strCategory}</p>
       <h3>Ingredients</h3>
       <ul>
+        {/* provavelmete colocarei essa parte em um componente */}
         {arrayIngredients.map((ingredient, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -120,43 +119,10 @@ function DetailsFoods(props) {
         frameBorder="0"
         allow={ `accelerometer; autoplay; clipboard-write; encrypted-media;
         gyroscope; picture-in-picture` }
-        allowFullcreen
       />
       <CarouselRecommend arrayRecomendation={ arrayRecomendation.drinks } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      {!isDisabled && (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="fixed-bottom"
-        >
-          Start Recipe
-        </button>
-      )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <ButtonFixedRecipes />
     </section>
   );
 }

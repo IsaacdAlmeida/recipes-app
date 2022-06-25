@@ -1,61 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import shareIcon from '../images/shareIcon.svg';
-import heartIcon from '../images/whiteHeartIcon.svg';
-import { apiAttributes } from '../services/themealdbApi';
 import CarouselRecommend from '../components/CarouselRecommend';
-
-// const doneRecipes = [
-//   {
-//     id: '52771',
-//     type: 'food',
-//     nationality: 'Italian',
-//     category: 'Vegetarian',
-//     alcoholicOrNot: '',
-//     name: 'Spicy Arrabiata Penne',
-//     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-//     doneDate: '23/06/2020',
-//     tags: ['Pasta', 'Curry'],
-//   },
-//   {
-//     id: '178319',
-//     type: 'drink',
-//     nationality: '',
-//     category: 'Cocktail',
-//     alcoholicOrNot: 'Alcoholic',
-//     name: 'Aquamarine',
-//     image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-//     doneDate: '23/06/2020',
-//     tags: [],
-//   },
-// ];
+import doneRecipesContext from '../context/doneRecipesContext';
+// import MainContext from '../context/MainContext';
+import shareIcon from '../images/shareIcon.svg';
+import FavoriteIcon from '../components/FavoriteIcon';
+import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
 function DetailsDrinks(props) {
+  const { clipboard, indexMessage } = useContext(doneRecipesContext);
+  // const { data, arrayRecomendation, setId, isLoading,
+  //   arrayIngredients, arrayMeasures } = useContext(MainContext);
+
   const [data, setData] = useState({});
+  const [arrayRecomendation, setRecomendation] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
-  const [arrayRecomendation, setRecomendation] = useState({});
-  const [isLoading, setLoading] = useState(true);
-  const [isDisabled, setDisabled] = useState(false);
-  // localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
-
-  useEffect(() => {
-    const requireApiFood = async () => {
-      const URL_FOOD = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const dataApi = await fetch(URL_FOOD).then((response) => response.json());
-      setData(dataApi.drinks[0]);
-    };
-    requireApiFood();
-  }, [id]);
+  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
       setRecomendation(await apiAttributes('s', '', '/foods'));
+      setData(await requireApiFood('thecocktaildb', id, 'drinks'));
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (Object.keys(arrayRecomendation).length !== 0
@@ -67,14 +41,14 @@ function DetailsDrinks(props) {
   useEffect(() => {
     const arrayIngredient = [];
     const arrayMeasure = [];
-    const maxCount = 15;
+    const maxCount = 20;
     let conditionalBool = true;
     let count = 1;
 
     while (conditionalBool && count <= maxCount) {
       const keyIngredient = `strIngredient${count}`;
       const keyMeasure = `strMeasure${count}`;
-      if (data[keyIngredient] === null || data[keyIngredient] === '') {
+      if (data[keyIngredient] === '' || data[keyIngredient] === null) {
         conditionalBool = false;
         break;
       }
@@ -86,15 +60,18 @@ function DetailsDrinks(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  useEffect(() => {
-    const test = JSON.parse(localStorage.getItem('doneRecipes'));
-    console.log(test);
-    test.forEach(({ id: idStorage }) => {
-      if (idStorage === id) setDisabled(true);
-    });
-  }, [id]);
+  const { strDrinkThumb, strDrink, strAlcoholic, strInstructions, strCategory } = data;
 
-  const { strDrinkThumb, strDrink, strAlcoholic, strInstructions } = data;
+  const objFavorite = {
+    id,
+    type: 'drink',
+    nationality: '',
+    category: strCategory,
+    alcoholicOrNot: strAlcoholic,
+    name: strDrink,
+    image: strDrinkThumb,
+  };
+
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <img
@@ -110,18 +87,15 @@ function DetailsDrinks(props) {
       </h2>
       <input
         type="image"
-        alt="share-icon-button"
         data-testid="share-btn"
         src={ shareIcon }
-        onClick={ () => console.log('Icon share') }
+        onClick={ clipboard }
+        value={ `http://localhost:3000/drinks/${id}` }
+        alt="share button"
+        id={ id }
       />
-      <input
-        type="image"
-        alt="favorite-icon-button"
-        data-testid="favorite-btn"
-        src={ heartIcon }
-        onClick={ () => console.log('Icon favorite') }
-      />
+      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
+      <FavoriteIcon data={ objFavorite } />
       <p data-testid="recipe-category">{strAlcoholic}</p>
       <h3>Ingredients</h3>
       <ul>
@@ -138,39 +112,7 @@ function DetailsDrinks(props) {
       <p data-testid="instructions">{strInstructions}</p>
       <CarouselRecommend arrayRecomendation={ arrayRecomendation.meals } />
       <p data-testid="{index}-recomendation-card">Recomendado</p>
-      {!isDisabled && (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="fixed-bottom"
-        >
-          Start Recipe
-        </button>
-      )}
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <ButtonFixedRecipes />
     </section>
   );
 }

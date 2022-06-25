@@ -1,10 +1,12 @@
-export const themealdbApi = async () => {
-  const URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+export const requireApiFood = async (site, id, key) => {
+  const URL = `https://www.${site}.com/api/json/v1/1/lookup.php?i=${id}`;
+
   try {
     const data = await fetch(URL).then((response) => response.json());
-    console.log(data);
-  } catch (e) {
-    return e;
+    const result = data[key][0];
+    return result;
+  } catch (error) {
+    console.log(error);
   }
 };
 

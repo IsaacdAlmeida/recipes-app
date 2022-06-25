@@ -114,6 +114,23 @@ function MainProvider({ children }) {
 
   /* ----------------------<SearchProvider>--------------------------- */
 
+  /* ----------------------<Details>---------------------------------- */
+
+  const setRecipeFavorite = (newFavoriteRecipe) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (favoriteRecipes.length !== 0) {
+      if (favoriteRecipes.some(({ id }) => id !== newFavoriteRecipe.id)) {
+        const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+      } else {
+        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      }
+    } else {
+      const newFavoriteRecipes = [newFavoriteRecipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    }
+  };
+
   const context = {
     foods,
     drinks,
@@ -128,6 +145,7 @@ function MainProvider({ children }) {
     mealApi,
     sendSearch,
     handleChangeRadio,
+    setRecipeFavorite,
   };
 
   return (
