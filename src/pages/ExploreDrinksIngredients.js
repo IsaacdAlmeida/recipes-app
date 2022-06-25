@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
-import { getIngredient } from '../services/themealdbApi';
+import { getIngredientOrNationality } from '../services/themealdbApi';
 
 const MAX_RECIPES = 12;
 
@@ -14,7 +14,7 @@ function ExploreDrinksIngredients() {
   // o parametro é o site que será utilizado, já que o exploreFoods
   // também utiliza essa função do provider
   async function sendSearch() {
-    setIngredient(await getIngredient('thecocktaildb'));
+    setIngredient(await getIngredientOrNationality('thecocktaildb', 'list', 'i', 'list'));
   }
 
   useEffect(() => {

@@ -50,8 +50,9 @@ export const randomApi = async (site) => {
 };
 
 // Req 76 - Retorna os ingredientes, dependento da receita(food ou drink)
-export const getIngredient = async (site) => {
-  const URL = `https://www.${site}.com/api/json/v1/1/list.php?i=list`;
+export const getIngredientOrNationality = async (site, modulo, type, filter) => {
+  const URL = `https://www.${site}.com/api/json/v1/1/${modulo}.php?${type}=${filter}`;
+  console.log(URL);
   try {
     const data = await fetch(URL).then((response) => response.json());
     return data;
