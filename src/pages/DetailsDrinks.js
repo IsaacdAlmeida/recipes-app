@@ -9,7 +9,7 @@ import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
 function DetailsDrinks(props) {
-  const { clipboard } = useContext(doneRecipesContext);
+  const { clipboard, indexMessage } = useContext(doneRecipesContext);
   // const { data, arrayRecomendation, setId, isLoading,
   //   arrayIngredients, arrayMeasures } = useContext(MainContext);
 
@@ -92,7 +92,9 @@ function DetailsDrinks(props) {
         onClick={ clipboard }
         value={ `http://localhost:3000/drinks/${id}` }
         alt="share button"
+        id={ id }
       />
+      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <FavoriteIcon data={ objFavorite } />
       <p data-testid="recipe-category">{strAlcoholic}</p>
       <h3>Ingredients</h3>

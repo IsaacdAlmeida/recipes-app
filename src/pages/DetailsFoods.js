@@ -8,7 +8,7 @@ import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
 function DetailsFoods(props) {
-  const { clipboard } = useContext(doneRecipesContext);
+  const { clipboard, indexMessage } = useContext(doneRecipesContext);
 
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
@@ -89,9 +89,11 @@ function DetailsFoods(props) {
         data-testid="share-btn"
         src={ shareIcon }
         onClick={ clipboard }
-        value={ `http://localhost:3000/drinks/${id}` }
+        value={ `http://localhost:3000/foods/${id}` }
         alt="share button"
+        id={ id }
       />
+      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <FavoriteIcon data={ objFavorite } />
       <p data-testid="recipe-category">{strCategory}</p>
       <h3>Ingredients</h3>
