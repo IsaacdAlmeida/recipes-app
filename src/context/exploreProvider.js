@@ -63,11 +63,7 @@ function ExplorerProvider({ children }) {
   // caso All, o evento da função e chamada, do contrário,
   // espera a o evento do select option alterar a informação
   useEffect(() => {
-    if (changeNationality === 'All') {
-      sendSearchIngredient();
-    } else {
-      sendSearchIngredient();
-    }
+    sendSearchIngredient();
   }, [changeNationality]);
 
   // Req 79 - Funcao grava em changeArea o valor selecionado no select option
