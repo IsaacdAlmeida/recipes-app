@@ -4,18 +4,18 @@ import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
 
 function ExploreDrinks() {
-  const { recipes, sendTypeRecipe } = useContext(explorerContext);
+  const { randomRecipes, sendRecipeType } = useContext(explorerContext);
 
   const { push } = useHistory();
 
   // Req 74 - Aplicado useEffect para checar se temos retorno da receita
   // caso true, pegamos o id da receita e redirecionamos para a rota correta
   useEffect(() => {
-    if (recipes) {
-      const id = recipes.drinks.map((e) => e.idDrink);
+    if (randomRecipes) {
+      const id = randomRecipes.drinks.map((e) => e.idDrink);
       push(`/drinks/${id}`);
     }
-  }, [recipes, push]);
+  }, [randomRecipes, push]);
 
   return (
     <div>
@@ -33,7 +33,7 @@ function ExploreDrinks() {
       <button
         data-testid="explore-surprise"
         type="button"
-        onClick={ () => sendTypeRecipe('drink') }
+        onClick={ () => sendRecipeType('drink') }
       >
         Surprise me!
       </button>

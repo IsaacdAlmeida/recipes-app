@@ -28,7 +28,7 @@ function ExploreFoodsIngredients() {
         .map(({ strIngredient, idIngredient }, index) => (
           <Link
             key={ idIngredient }
-            onClick={ async () => getRecipes('themealdb', strIngredient) }
+            onClick={ async () => getRecipes('themealdb', 'filter', 'i', strIngredient) }
             to="/foods/"
           >
             <div

@@ -7,7 +7,7 @@ import requestFoodsCategories from '../services/requestFoodsCategories';
 import requestDrinksCategories from '../services/requestDrinksCategories';
 import requestFoodsFromCategories from '../services/requestFoodsFromCategories';
 import requestDrinksFromCategories from '../services/requestDrinksFromCategories';
-import { apiAttributes } from '../services/themealdbApi';
+import { apiRecipes } from '../services/themealdbApi';
 
 function MainProvider({ children }) {
   /* -----------------------<MainProvider>---------------------------- */
@@ -77,39 +77,56 @@ function MainProvider({ children }) {
   /* -----------------------<MainProvider>---------------------------- */
   /* ----------------------<HeaderProvider>--------------------------- */
 
-  const [search, setSearch] = useState('');
+  const [searchTyping, setSearchTyping] = useState('');
 
   function handleChange({ target: { value } }) {
-    setSearch(value);
+    setSearchTyping(value);
   }
 
   /* ----------------------<HeaderProvider>--------------------------- */
   /* ----------------------<SearchProvider>--------------------------- */
 
-  const [typeSearch, setTypeSearch] = useState(''); // repassa o tipo da pesquisa, se eh ingrediente(i), name(s) ou firs letter(f)
-  const [drinkApi, setDrinkApi] = useState(''); // recebe retorno para bebidas
-  const [mealApi, setMealApi] = useState(''); // recebe retorno para comidas
+  const [searchType, setSearchType] = useState(''); // repassa o tipo da pesquisa, se eh ingrediente(i), name(s) ou firs letter(f)
+  // const [drinkApi, setDrinkApi] = useState(''); // recebe retorno para bebidas
+  // const [mealApi, setMealApi] = useState(''); // recebe retorno para comidas
 
   // responsável por passar para a API, o tipo da consulta, o ingrediente escolhido e a rota selecionada
-  async function sendSearch(type, ingredient, page) {
-    if (type === 'f' && ingredient.length > 1) {
+  async function sendSearch(type, searchRecipe, page) {
+    // Valida o tipo da pesquisa, e se existe mais de um ingrediente
+    // caso true, enviamos um alerta.
+    if (type === 'f' && searchRecipe.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-    if (page === '/drinks') {
-      setDrinkApi(await apiAttributes(type, ingredient, page)); // add o retorno da API de bebidas no globalState(drinkApi)
-    } setMealApi(await apiAttributes(type, ingredient, page)); // add o retorno da API de comidas no globalState(mealApi)
+    // Bloco food, valida a pagina + o tipo da pesquisa
+    // para enviarmos para a API trazer o resultado e adicionar no globalState
+    if (page === '/foods' && (type === 'f' || type === 's')) {
+      const foodRecipe = await apiRecipes('themealdb', 'search', type, searchRecipe);
+      setFoods(foodRecipe.meals.slice(0, MAX_RECIPE_NUMBER));
+    } else if (type === 'i') {
+      const foodRecipe = await apiRecipes('themealdb', 'filter', type, searchRecipe);
+      setFoods(foodRecipe.meals.slice(0, MAX_RECIPE_NUMBER));
+    }
+    // Bloco Bebidas, segue o mesmo padrão do comentário anterior
+    if (page === '/drinks' && (type === 'f' || type === 's')) {
+      const drinkRecipe = await apiRecipes('thecocktaildb', 'search', type, searchRecipe);
+      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
+    } else if (type === 'i') {
+      const drinkRecipe = await apiRecipes('thecocktaildb', 'filter', type, searchRecipe);
+      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
+    }
   }
 
   // Com auxilio do Henrique, aplicamos no useEffect a validação se não existir bebida ou comida
   useEffect(() => {
-    if (drinkApi.drinks === null || mealApi.meals === null) {
+    console.log(foods);
+    if (foods === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-  }, [drinkApi, mealApi]);
+  }, [foods]);
 
   // Funcao grava o valor do radio button escolhido
   function handleChangeRadio({ target: { value } }) {
-    setTypeSearch(value);
+    setSearchType(value);
   }
 
   /* ----------------------<SearchProvider>--------------------------- */
@@ -131,6 +148,8 @@ function MainProvider({ children }) {
     }
   };
 
+  /* ----------------------<Details>---------------------------------- */
+
   const context = {
     foods,
     drinks,
@@ -138,11 +157,9 @@ function MainProvider({ children }) {
     drinksCategories,
     handleCategoriesFoodsFilter,
     handleCategoriesDrinksFilter,
-    search,
+    searchTyping,
     handleChange,
-    typeSearch,
-    drinkApi,
-    mealApi,
+    searchType,
     sendSearch,
     handleChangeRadio,
     setRecipeFavorite,
