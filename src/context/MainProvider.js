@@ -18,6 +18,7 @@ function MainProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
   const [foodsCategories, setFoodsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [buttonToggle, setButtonToggle] = useState(false);
 
   const foodsArraySliced = async () => {
     const foodsArray = await requestFoods();
@@ -66,6 +67,18 @@ function MainProvider({ children }) {
     const categoriesFromFoodsSliced = categoriesFoodsFiltered
       .slice(0, MAX_RECIPE_NUMBER);
     setFoods(categoriesFromFoodsSliced);
+
+    setButtonToggle(!buttonToggle);
+    if (buttonToggle === false) {
+      setFoods(categoriesFromFoodsSliced);
+      setButtonToggle(true);
+    }
+    if (buttonToggle === true) {
+      const foodsArray = await requestFoods();
+      const foodsSliced = foodsArray.slice(0, MAX_RECIPE_NUMBER);
+      setFoods(foodsSliced);
+      setButtonToggle(false);
+    }
   };
 
   const handleCategoriesDrinksFilter = async (category) => {
@@ -73,6 +86,18 @@ function MainProvider({ children }) {
     const categoriesFromDrinksSliced = categoriesDrinksFiltered
       .slice(0, MAX_RECIPE_NUMBER);
     setDrinks(categoriesFromDrinksSliced);
+
+    setButtonToggle(!buttonToggle);
+    if (buttonToggle === false) {
+      setDrinks(categoriesFromDrinksSliced);
+      setButtonToggle(true);
+    }
+    if (buttonToggle === true) {
+      const drinksArray = await requestDrinks();
+      const drinksSliced = drinksArray.slice(0, MAX_RECIPE_NUMBER);
+      setDrinks(drinksSliced);
+      setButtonToggle(false);
+    }
   };
   /* -----------------------<MainProvider>---------------------------- */
   /* ----------------------<HeaderProvider>--------------------------- */
