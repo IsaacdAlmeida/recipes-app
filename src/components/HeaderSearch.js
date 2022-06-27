@@ -1,9 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import MainContext from '../context/MainContext';
-// import RecipeCard from './RecipeCard';
-
-// const QUANTITY_OF_ITEM = 12;
 
 function HeaderSearch() {
   const {
@@ -11,7 +8,8 @@ function HeaderSearch() {
     drinks,
     foods,
     handleChangeRadio,
-    sendSearch,
+    sendSearchFoods,
+    sendSearchDrinks,
     searchTyping,
   } = useContext(MainContext); // Recupera as informações do Provider
 
@@ -65,7 +63,9 @@ function HeaderSearch() {
       <button
         data-testid="exec-search-btn"
         type="button"
-        onClick={ () => sendSearch(searchType, searchTyping, pathname) }
+        onClick={ pathname === '/foods'
+          ? () => sendSearchFoods(searchType, searchTyping, pathname)
+          : () => sendSearchDrinks(searchType, searchTyping, pathname) }
       >
         Search
       </button>
