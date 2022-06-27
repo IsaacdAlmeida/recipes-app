@@ -9,7 +9,7 @@ const MAX_RECIPES = 12;
 
 function Drinks() {
   const { drinks } = useContext(MainContext);
-  const { idMealRecipes } = useContext(explorerContext);
+  const { recipesClicked } = useContext(explorerContext);
   return (
     <div>
       <div>
@@ -19,11 +19,11 @@ function Drinks() {
         <ButtonCategoriesDrinksFilter />
       </div>
       <div>
-        {/* Req 77 - Add IdMealRecipes para caso ao iniciar a tela com o array preenchido
+        {/* Req 77 - RecipesClicked para caso ao iniciar a tela com o array preenchido
         deve montar encima dessa informação, do contrário, mantem a informação inicial da tela
         principal */}
-        { idMealRecipes
-          ? idMealRecipes.drinks.slice(0, MAX_RECIPES).map((ingredient, index) => (
+        { recipesClicked
+          ? recipesClicked.drinks.slice(0, MAX_RECIPES).map((ingredient, index) => (
             <div key={ index }>
               <RecipeCard
                 drinks={ ingredient }

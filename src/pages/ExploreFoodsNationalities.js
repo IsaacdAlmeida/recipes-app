@@ -6,7 +6,11 @@ import explorerContext from '../context/exploreContext';
 const MAX_RECIPES = 12;
 
 function ExploreFoodsNationalities() {
-  const { getRecipes, ingredient, area, handleChangeArea } = useContext(explorerContext);
+  const {
+    getRecipes,
+    recipesSelectedArea,
+    nationality,
+    handleChangeArea } = useContext(explorerContext);
 
   return (
     <div>
@@ -22,7 +26,7 @@ function ExploreFoodsNationalities() {
         >
           All
         </option>
-        { area && area.meals.map(({ strArea }, index) => (
+        { nationality && nationality.meals.map(({ strArea }, index) => (
           <option
             data-testid={ `${strArea}-option` }
             key={ index }
@@ -33,7 +37,7 @@ function ExploreFoodsNationalities() {
         )) }
       </select>
       {/* Req 79 - Monta na tela as 12 primeiras receitas da Api */ }
-      { ingredient && ingredient.meals.slice(0, MAX_RECIPES)
+      { recipesSelectedArea && recipesSelectedArea.meals.slice(0, MAX_RECIPES)
         .map(({ strMeal, strMealThumb, idMeal }, index) => (
           <div key={ idMeal } data-testid={ `${index}-recipe-card` }>
             <Link

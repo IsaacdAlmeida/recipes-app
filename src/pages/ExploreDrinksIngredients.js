@@ -28,7 +28,9 @@ function ExploreDrinksIngredients() {
         .map(({ strIngredient1 }, index) => (
           <Link
             key={ strIngredient1 }
-            onClick={ async () => getRecipes('thecocktaildb', strIngredient1) }
+            onClick={
+              async () => getRecipes('thecocktaildb', 'filter', 'i', strIngredient1)
+            }
             to="/drinks/"
           >
             <div
