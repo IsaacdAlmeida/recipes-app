@@ -61,7 +61,7 @@ function FavoriteRecipes() {
             src={ blackHeartIcon }
             id={ index }
             alt="favorite button"
-            onClick={ unfavoriteBtn }
+            onClick={ () => unfavoriteBtn(recipes) }
           />
           <Link to={ `/${recipes.type}s/${recipes.id}` }>
             <p data-testid={ `${index}-horizontal-name` }>
