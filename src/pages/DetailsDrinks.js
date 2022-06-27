@@ -2,16 +2,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
 import CarouselRecommend from '../components/CarouselRecommend';
 import doneRecipesContext from '../context/doneRecipesContext';
-// import MainContext from '../context/MainContext';
 import shareIcon from '../images/shareIcon.svg';
 import FavoriteIcon from '../components/FavoriteIcon';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
+const SIX_NUMB = 6;
+
 function DetailsDrinks(props) {
   const { clipboard, indexMessage } = useContext(doneRecipesContext);
-  // const { data, arrayRecomendation, setId, isLoading,
-  //   arrayIngredients, arrayMeasures } = useContext(MainContext);
 
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
@@ -21,11 +20,11 @@ function DetailsDrinks(props) {
 
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
-  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
-      setRecomendation(await apiAttributes('s', '', '/foods'));
+      const fetchRecomendation = await apiAttributes('s', '', '/foods');
+      setRecomendation(fetchRecomendation.meals.slice(0, SIX_NUMB));
       setData(await requireApiFood('thecocktaildb', id, 'drinks'));
     }
     fetchData();
@@ -110,8 +109,10 @@ function DetailsDrinks(props) {
       </ul>
       <h3>Instructions</h3>
       <p data-testid="instructions">{strInstructions}</p>
-      <CarouselRecommend arrayRecomendation={ arrayRecomendation.meals } />
-      <p data-testid="{index}-recomendation-card">Recomendado</p>
+      <CarouselRecommend
+        arrayRecomendation={ arrayRecomendation }
+        way="drinks"
+      />
       <ButtonFixedRecipes />
     </section>
   );
