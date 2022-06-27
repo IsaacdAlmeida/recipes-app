@@ -7,6 +7,8 @@ import FavoriteIcon from '../components/FavoriteIcon';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 
+const SIX_NUMB = 6;
+
 function DetailsFoods(props) {
   const { clipboard, indexMessage } = useContext(doneRecipesContext);
 
@@ -22,7 +24,8 @@ function DetailsFoods(props) {
 
   useEffect(() => {
     async function fetchData() {
-      setRecomendation(await apiAttributes('s', '', '/drinks'));
+      const fetchRecomendation = await apiAttributes('s', '', '/drinks');
+      setRecomendation(fetchRecomendation.drinks.slice(0, SIX_NUMB));
       setData(await requireApiFood('themealdb', id, 'meals'));
     }
     fetchData();
@@ -120,8 +123,10 @@ function DetailsFoods(props) {
         allow={ `accelerometer; autoplay; clipboard-write; encrypted-media;
         gyroscope; picture-in-picture` }
       />
-      <CarouselRecommend arrayRecomendation={ arrayRecomendation.drinks } />
-      <p data-testid="{index}-recomendation-card">Recomendado</p>
+      <CarouselRecommend
+        arrayRecomendation={ arrayRecomendation }
+        way="foods"
+      />
       <ButtonFixedRecipes />
     </section>
   );

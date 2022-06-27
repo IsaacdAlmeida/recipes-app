@@ -1,21 +1,39 @@
-import React from 'react';
-import { Carousel } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
+import { Carousel, Card } from 'react-bootstrap';
 
-function CarouselRecommend(props) {
-  const { arrayRecomendation } = props;
+// const SIX_NUMB = 6;
+
+function CarouselRecommend({ arrayRecomendation, way }) {
+  const [image, setImage] = useState('');
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    if (way === 'drinks') {
+      setImage('strMealThumb');
+      setName('strMeal');
+    } else {
+      setImage('strDrinkThumb');
+      setName('strDrink');
+    }
+  }, [way]);
+
   return (
     <Carousel>
-      {arrayRecomendation.map((food) => (
-        <Carousel.Item key={ food.idMeal }>
-          <img
-            className="d-block w-100"
-            src={ food.strMealThumb }
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>{food.strMeal}</h3>
-          </Carousel.Caption>
+      {arrayRecomendation.map((recipe, index) => (
+        <Carousel.Item key={ index } data-testid={ `${index}-recomendation-card` }>
+          <Card>
+            <Card.Img
+              src={ recipe[image] }
+            />
+            <Card.Body>
+              <Card.Title
+                data-testid={ `${index}-recomendation-title` }
+              >
+                {recipe[name]}
+              </Card.Title>
+            </Card.Body>
+          </Card>
         </Carousel.Item>
       ))}
     </Carousel>
@@ -24,6 +42,7 @@ function CarouselRecommend(props) {
 
 CarouselRecommend.propTypes = {
   arrayRecomendation: PropType.arrayOf(PropType.object).isRequired,
+  way: PropType.string.isRequired,
 };
 
 export default CarouselRecommend;
