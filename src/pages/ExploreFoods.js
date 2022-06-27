@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
+import Footer from '../components/Footer';
 
 function ExploreFoods() {
   const { randomRecipes, sendRecipeType } = useContext(explorerContext);
@@ -46,6 +47,10 @@ function ExploreFoods() {
       >
         Surprise me!
       </button>
+
+      <div>
+        <Footer />
+      </div>
 
     </div>
   );

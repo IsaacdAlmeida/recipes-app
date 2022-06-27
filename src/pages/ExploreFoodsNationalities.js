@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
+import Footer from '../components/Footer';
 
 const MAX_RECIPES = 12;
 
@@ -58,6 +59,9 @@ function ExploreFoodsNationalities() {
             </Link>
           </div>
         )) }
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }

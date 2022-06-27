@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import RecipeCard from '../components/RecipeCard';
 import ButtonCategoriesFoodsFilter from '../components/ButtonCategoriesFoodsFilter';
 import explorerContext from '../context/exploreContext';
+import Footer from '../components/Footer';
 
 const MAX_RECIPES = 12;
 
@@ -40,6 +41,10 @@ function Foods() {
               />
             </div>
           )) }
+      </div>
+
+      <div>
+        <Footer />
       </div>
     </div>
   );
