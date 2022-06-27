@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import CarouselRecommend from '../components/CarouselRecommend';
-import doneRecipesContext from '../context/doneRecipesContext';
-import shareIcon from '../images/shareIcon.svg';
-import FavoriteIcon from '../components/FavoriteIcon';
-import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import React, { useContext, useEffect, useState } from 'react';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
+import CarouselRecommend from '../components/CarouselRecommend';
+import FavoriteIcon from '../components/FavoriteIcon';
+import RenderCategory from '../components/RenderCategory';
+import RenderImage from '../components/RenderImage';
+import RenderShare from '../components/RenderShare';
+import RenderTitle from '../components/RenderTitle';
+import doneRecipesContext from '../context/doneRecipesContext';
+import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 
 function DetailsFoods(props) {
-  const { clipboard, indexMessage } = useContext(doneRecipesContext);
+  const { indexMessage } = useContext(doneRecipesContext);
 
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
@@ -73,29 +76,12 @@ function DetailsFoods(props) {
 
   return isLoading ? <p>Loading ...</p> : (
     <section>
-      <img
-        alt="img-recipe"
-        data-testid="recipe-photo"
-        src={ strMealThumb }
-        width="100%"
-      />
-      <h2
-        data-testid="recipe-title"
-      >
-        {strMeal}
-      </h2>
-      <input
-        type="image"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ clipboard }
-        value={ `http://localhost:3000/foods/${id}` }
-        alt="share button"
-        id={ id }
-      />
+      <RenderImage srcImage={ strMealThumb } />
+      <RenderTitle strTitle={ strMeal } />
+      <RenderShare id={ id } />
       { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <FavoriteIcon data={ objFavorite } />
-      <p data-testid="recipe-category">{strCategory}</p>
+      <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
       <ul>
         {/* provavelmete colocarei essa parte em um componente */}
