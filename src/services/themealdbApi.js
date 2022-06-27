@@ -15,7 +15,6 @@ export const apiRecipes = async (site, modulo, type, searchRecipe) => {
   // modulo (filter or search or list)
   // type(i = ingredient, f = first letter, s = name)
   const URL = `https://www.${site}.com/api/json/v1/1/${modulo}.php?${type}=${searchRecipe}`;
-  console.log(URL);
   try {
     const data = await fetch(URL).then((response) => response.json());
     return data;
