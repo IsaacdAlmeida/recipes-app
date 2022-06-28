@@ -8,6 +8,7 @@ function Profile() {
 
   const clearStorage = () => {
     localStorage.clear();
+    localStorage.removeItem('favoriteRecipes');
   };
   return (
     <div>
