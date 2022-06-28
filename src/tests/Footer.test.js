@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-// import { act } from 'react-dom/test-utils';
-import Foods from '../pages/Foods';
-import testData from '../../cypress/mocks/meals';
+import { screen } from '@testing-library/react';
+import App from '../App';
+import renderWithRouter from './renderWithRouter/renderWithRouter';
+
+const fetchMock = require('../../cypress/mocks/fetch');
 
 const TEST_ID_FOOTER = 'footer';
 const TEST_ID_BTN_DRINKS = 'drinks-bottom-btn';
@@ -10,10 +11,7 @@ const TEST_ID_BTN_EXPLORE = 'explore-bottom-btn';
 const TEST_ID_BTN_FOODS = 'food-bottom-btn';
 
 beforeEach(() => {
-  jest.spyOn(global, 'fetch')
-    .mockImplementation(() => Promise.resolve({
-      meals: () => Promise.resolve(testData),
-    }));
+  window.fetch = fetchMock;
 });
 
 afterEach(() => {
@@ -22,8 +20,9 @@ afterEach(() => {
 
 describe('Testing component footer', () => {
   it('Check if it has attribute', async () => {
-    render(<Foods />);
-
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
+    expect(history.location.pathname).toBe('/foods');
     expect(screen.getByTestId(TEST_ID_FOOTER)).toBeInTheDocument();
     expect(screen.getByTestId(TEST_ID_BTN_DRINKS)).toBeInTheDocument();
     expect(screen.getByTestId(TEST_ID_BTN_EXPLORE)).toBeInTheDocument();
