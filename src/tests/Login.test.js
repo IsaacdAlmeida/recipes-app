@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import useEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
-import renderWithRouter from './renderWithRouter';
+import renderWithRouter from './renderWithRouter/renderWithRouter';
 import App from '../App';
 
 const EMAIL_INPUT_TEST_ID = 'email-input';
@@ -53,9 +53,9 @@ describe('Testing page Login', () => {
 
     expect(history.location.pathname).toBe('/');
 
-    const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
-    const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
-    const bntSubmit = screen.getByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
+    const inputEmailEL = screen.findByTestId(EMAIL_INPUT_TEST_ID);
+    const inputPassword = screen.findByTestId(PASSWORD_INPUT_TEST_ID);
+    const bntSubmit = screen.findByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
 
     useEvent.type(inputEmailEL, VALID_EMAIL);
     useEvent.type(inputPassword, VALID_PASSWORD);
