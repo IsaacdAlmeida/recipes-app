@@ -1,22 +1,18 @@
 import PropType from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
-import CarouselRecommend from '../components/CarouselRecommend';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '../components/FavoriteIcon';
 import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import doneRecipesContext from '../context/doneRecipesContext';
-import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import { requireApiFood } from '../services/themealdbApi';
 
-const SIX_NUMB = 6;
-
-function DetailsFoods(props) {
+function MealsRecipesInProgress(props) {
   const { indexMessage } = useContext(doneRecipesContext);
 
   const [data, setData] = useState({});
-  const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
@@ -27,19 +23,17 @@ function DetailsFoods(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const fetchRecomendation = await apiAttributes('s', '', '/drinks');
-      setRecomendation(fetchRecomendation.drinks.slice(0, SIX_NUMB));
       setData(await requireApiFood('themealdb', id, 'meals'));
     }
     fetchData();
   }, [id]);
 
   useEffect(() => {
-    if (Object.keys(arrayRecomendation).length !== 0
-      && Object.keys(data).length !== 0) {
+    if (Object.keys(data).length !== 0) {
       setLoading(false);
     }
-  }, [arrayRecomendation, data]);
+    console.log('oi');
+  }, [data]);
 
   useEffect(() => {
     /* provavelmete colocarei essa parte em um componente */
@@ -64,8 +58,7 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  const { strMealThumb, strMeal, strCategory, strInstructions,
-    strYoutube, strArea } = data;
+  const { strMealThumb, strMeal, strCategory, strInstructions, strArea } = data;
 
   const objFavorite = {
     id,
@@ -77,6 +70,20 @@ function DetailsFoods(props) {
     image: strMealThumb,
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+  const [ingredientIndex, setIngredientIndex] = useState('');
+
+  const handleOnChange = (i) => {
+    setIsChecked(!isChecked);
+    setIngredientIndex(i);
+  };
+
+  // style={ {
+  //   textDecoration:
+  //    ? 'line-through'
+  //    : 'none',
+  // } }
+
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <RenderImage srcImage={ strMealThumb } />
@@ -86,42 +93,44 @@ function DetailsFoods(props) {
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
-      <ul>
-        {/* provavelmete colocarei essa parte em um componente */}
+      <div>
         {arrayIngredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
+          <p
             key={ index }
+            data-testid={ `${index}-ingredient-step` }
+            style={ { textDecoration: isChecked && ingredientIndex === index
+              ? 'line-through' : 'none' } }
+
           >
+            <input
+              type="checkbox"
+              id={ index }
+              onClick={ () => handleOnChange(index) }
+            />
             {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
-          </li>
+          </p>
         ))}
-      </ul>
+      </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{strInstructions}</p>
-      <iframe
-        data-testid="video"
-        width="100%"
-        height="315"
-        src={ strYoutube }
-        title="YouTube video player"
-        frameBorder="0"
-        allow={ `accelerometer; autoplay; clipboard-write; encrypted-media;
-        gyroscope; picture-in-picture` }
-      />
-      <CarouselRecommend
-        arrayRecomendation={ arrayRecomendation }
-        way="foods"
-      />
-      <ButtonFixedRecipes />
+      <Link to="/done-recipes">
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="finish-recipe-bottom"
+          // onClick={ () => history.push(`/foods/${***.idMeal}/in-progress`) }
+        >
+          Finish Recipe
+        </button>
+      </Link>
     </section>
   );
 }
 
-DetailsFoods.propTypes = {
+MealsRecipesInProgress.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
   }).isRequired,
 };
 
-export default DetailsFoods;
+export default MealsRecipesInProgress;

@@ -1,16 +1,14 @@
 import PropType from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
-import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
-import CarouselRecommend from '../components/CarouselRecommend';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '../components/FavoriteIcon';
-import doneRecipesContext from '../context/doneRecipesContext';
-import shareIcon from '../images/shareIcon.svg';
-import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import RenderCategory from '../components/RenderCategory';
+import RenderImage from '../components/RenderImage';
+import RenderShare from '../components/RenderShare';
+import RenderTitle from '../components/RenderTitle';
 
-const SIX_NUMB = 6;
-
-function DetailsDrinks(props) {
-  const { clipboard, indexMessage } = useContext(doneRecipesContext);
+function DrinksRecipesInProgress(props) {
+  const { indexMessage } = useContext(doneRecipesContext);
 
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
@@ -20,11 +18,11 @@ function DetailsDrinks(props) {
 
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
+  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
-      const fetchRecomendation = await apiAttributes('s', '', '/foods');
-      setRecomendation(fetchRecomendation.meals.slice(0, SIX_NUMB));
+      setRecomendation(await apiAttributes('s', '', '/drinks'));
       setData(await requireApiFood('thecocktaildb', id, 'drinks'));
     }
     fetchData();
@@ -38,6 +36,7 @@ function DetailsDrinks(props) {
   }, [arrayRecomendation, data]);
 
   useEffect(() => {
+    /* provavelmete colocarei essa parte em um componente */
     const arrayIngredient = [];
     const arrayMeasure = [];
     const maxCount = 20;
@@ -73,55 +72,41 @@ function DetailsDrinks(props) {
 
   return isLoading ? <p>Loading ...</p> : (
     <section>
-      <img
-        alt="img-recipe"
-        data-testid="recipe-photo"
-        src={ strDrinkThumb }
-        width="100%"
-      />
-      <h2
-        data-testid="recipe-title"
-      >
-        {strDrink}
-      </h2>
-      <input
-        type="image"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ clipboard }
-        value={ `http://localhost:3000/drinks/${id}` }
-        alt="share button"
-        id={ id }
-      />
+      <RenderImage srcImage={ strDrinkThumb } />
+      <RenderTitle strTitle={ strDrink } />
+      <RenderShare id={ id } />
       { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <FavoriteIcon data={ objFavorite } />
+      <RenderCategory strCategory={ strCategory } />
       <p data-testid="recipe-category">{strAlcoholic}</p>
       <h3>Ingredients</h3>
-      <ul>
+      <div>
         {arrayIngredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-          >
+          <p key={ index } data-testid={ `${index}-ingredient-step` }>
+            <input type="checkbox" />
             {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
-          </li>
+          </p>
         ))}
-      </ul>
+      </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{strInstructions}</p>
-      <CarouselRecommend
-        arrayRecomendation={ arrayRecomendation }
-        way="drinks"
-      />
-      <ButtonFixedRecipes />
+      <Link to="/done-recipes">
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="finish-recipe-bottom"
+        >
+          Finish Recipe
+        </button>
+      </Link>
     </section>
   );
 }
 
-DetailsDrinks.propTypes = {
+DrinksRecipesInProgress.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
   }).isRequired,
 };
 
-export default DetailsDrinks;
+export default DrinksRecipesInProgress;
