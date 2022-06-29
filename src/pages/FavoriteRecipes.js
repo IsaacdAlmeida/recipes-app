@@ -2,16 +2,23 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import favoriteRecipesContext from '../context/favoriteRecipesContext';
+import doneRecipesContext from '../context/doneRecipesContext';
+import FavoriteIcon from '../components/FavoriteIcon';
+import MainContext from '../context/MainContext';
 
 function FavoriteRecipes() {
   const {
-    filtered,
     clipboard,
     indexMessage,
     filterRecipes,
-    unfavoriteBtn } = useContext(favoriteRecipesContext);
+  } = useContext(doneRecipesContext);
+
+  const { favoritesStorage } = useContext(MainContext);
+
+  // useEffect(() => {
+  //   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  //   setFavorites(favoriteRecipes);
+  // }, [setFavorites]);
 
   return (
     <div>
@@ -20,25 +27,25 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
-        onClick={ () => filterRecipes('all') }
+        onClick={ () => filterRecipes('all', favoritesStorage) }
       >
         All
       </button>
       <button
         data-testid="filter-by-food-btn"
         type="button"
-        onClick={ () => filterRecipes('food') }
+        onClick={ () => filterRecipes('food', favoritesStorage) }
       >
         Food
       </button>
       <button
         data-testid="filter-by-drink-btn"
         type="button"
-        onClick={ () => filterRecipes('drink') }
+        onClick={ () => filterRecipes('drink', favoritesStorage) }
       >
         Drinks
       </button>
-      { filtered && filtered.map((recipes, index) => (
+      {favoritesStorage.length !== 0 && favoritesStorage.map((recipes, index) => (
         <div key={ recipes.id }>
           {/* Lógica implementada no Header pelo Isaac e no DoneRecipes pelo Vitor */}
           <input
@@ -55,14 +62,15 @@ function FavoriteRecipes() {
               Link copied!
             </span>
           )}
-          <input
+          {/* <input
             type="image"
             data-testid={ `${index}-horizontal-favorite-btn` }
             src={ blackHeartIcon }
             id={ index }
             alt="favorite button"
             onClick={ () => unfavoriteBtn(recipes) }
-          />
+          /> */}
+          <FavoriteIcon data={ recipes } />
           <Link to={ `/${recipes.type}s/${recipes.id}` }>
             <p data-testid={ `${index}-horizontal-name` }>
               {recipes.name}

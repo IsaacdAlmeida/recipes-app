@@ -5,7 +5,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import MainContext from '../context/MainContext';
 
 function FavoriteIcon({ data }) {
-  const { setRecipeFavorite } = useContext(MainContext);
+  const { setRecipeFavorite, unfavoriteBtn } = useContext(MainContext);
 
   const [isFavoriteIcon, setIconFavorite] = useState(false);
 
@@ -18,9 +18,19 @@ function FavoriteIcon({ data }) {
     }
   }, [data]);
 
-  const handleFavorite = () => {
-    setRecipeFavorite(data);
+  const addFavorite = () => {
     setIconFavorite(!isFavoriteIcon);
+    if (!isFavoriteIcon) {
+      setRecipeFavorite(data);
+    }
+  };
+
+  const removeFavorite = () => {
+    setIconFavorite(!isFavoriteIcon);
+    if (isFavoriteIcon) {
+      console.log('test');
+      unfavoriteBtn(data);
+    }
   };
 
   return !isFavoriteIcon ? (
@@ -29,7 +39,7 @@ function FavoriteIcon({ data }) {
       type="image"
       alt="favorite-icon-button"
       src={ whiteHeartIcon }
-      onClick={ handleFavorite }
+      onClick={ addFavorite }
     />
   ) : (
     <input
@@ -37,7 +47,7 @@ function FavoriteIcon({ data }) {
       type="image"
       alt="favorite-icon-button"
       src={ blackHeartIcon }
-      onClick={ handleFavorite }
+      onClick={ removeFavorite }
     />
   );
 }
