@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import DoneRecipesProvider from './context/doneRecipesProvider';
 import MainProvider from './context/MainProvider';
 import ExplorerProvider from './context/exploreProvider';
-import FavoriteRecipesProvider from './context/favoriteRecipesProvider';
 
 ReactDOM.render(
-  <MainProvider>
-    <FavoriteRecipesProvider>
+  <BrowserRouter>
+    <MainProvider>
       <DoneRecipesProvider>
         <ExplorerProvider>
           <App />
         </ExplorerProvider>
       </DoneRecipesProvider>
-    </FavoriteRecipesProvider>
-  </MainProvider>,
+    </MainProvider>
+  </BrowserRouter>,
 
   document.getElementById('root'),
 );

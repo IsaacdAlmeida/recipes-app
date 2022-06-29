@@ -9,7 +9,10 @@ import requestFoodsFromCategories from '../services/requestFoodsFromCategories';
 import requestDrinksFromCategories from '../services/requestDrinksFromCategories';
 import { apiRecipes } from '../services/themealdbApi';
 
+const MSG_RECIPES_NOT_FOUND = 'Sorry, we haven\'t found any recipes for these filters.';
+
 function MainProvider({ children }) {
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
   /* -----------------------<MainProvider>---------------------------- */
 
   const MAX_RECIPE_NUMBER = 12;
@@ -19,6 +22,7 @@ function MainProvider({ children }) {
   const [foodsCategories, setFoodsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [buttonToggle, setButtonToggle] = useState(false);
+  const [favoritesStorage, setFavorites] = useState(favoriteRecipes);
 
   const foodsArraySliced = async () => {
     const foodsArray = await requestFoods();
@@ -112,11 +116,9 @@ function MainProvider({ children }) {
   /* ----------------------<SearchProvider>--------------------------- */
 
   const [searchType, setSearchType] = useState(''); // repassa o tipo da pesquisa, se eh ingrediente(i), name(s) ou firs letter(f)
-  // const [drinkApi, setDrinkApi] = useState(''); // recebe retorno para bebidas
-  // const [mealApi, setMealApi] = useState(''); // recebe retorno para comidas
 
-  // responsável por passar para a API, o tipo da consulta, o ingrediente escolhido e a rota selecionada
-  async function sendSearch(type, searchRecipe, page) {
+  // responsável por passar para a API foods, o tipo da consulta, o ingrediente escolhido
+  async function sendSearchFoods(type, searchRecipe) {
     // Valida o tipo da pesquisa, e se existe mais de um ingrediente
     // caso true, enviamos um alerta.
     if (type === 'f' && searchRecipe.length > 1) {
@@ -124,30 +126,40 @@ function MainProvider({ children }) {
     }
     // Bloco food, valida a pagina + o tipo da pesquisa
     // para enviarmos para a API trazer o resultado e adicionar no globalState
-    if (page === '/foods' && (type === 'f' || type === 's')) {
+    if (type === 'f' || type === 's') {
       const foodRecipe = await apiRecipes('themealdb', 'search', type, searchRecipe);
-      setFoods(foodRecipe.meals.slice(0, MAX_RECIPE_NUMBER));
+      if (foodRecipe.meals === null) {
+        return global.alert(MSG_RECIPES_NOT_FOUND);
+      } setFoods(foodRecipe.meals.slice(0, MAX_RECIPE_NUMBER));
     } else if (type === 'i') {
       const foodRecipe = await apiRecipes('themealdb', 'filter', type, searchRecipe);
+      if (foodRecipe.meals === null) {
+        return global.alert(MSG_RECIPES_NOT_FOUND);
+      }
       setFoods(foodRecipe.meals.slice(0, MAX_RECIPE_NUMBER));
-    }
-    // Bloco Bebidas, segue o mesmo padrão do comentário anterior
-    if (page === '/drinks' && (type === 'f' || type === 's')) {
-      const drinkRecipe = await apiRecipes('thecocktaildb', 'search', type, searchRecipe);
-      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
-    } else if (type === 'i') {
-      const drinkRecipe = await apiRecipes('thecocktaildb', 'filter', type, searchRecipe);
-      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
     }
   }
 
-  // Com auxilio do Henrique, aplicamos no useEffect a validação se não existir bebida ou comida
-  useEffect(() => {
-    console.log(foods);
-    if (foods === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+  // responsável por passar para a API drinks, o tipo da consulta, o ingrediente escolhido
+  async function sendSearchDrinks(type, searchRecipe) {
+    if (type === 'f' && searchRecipe.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
     }
-  }, [foods]);
+    // Bloco Bebidas, segue o mesmo padrão do comentário anterior
+    if (type === 'f' || type === 's') {
+      const drinkRecipe = await apiRecipes('thecocktaildb', 'search', type, searchRecipe);
+      if (drinkRecipe.drinks === null) {
+        return global.alert(MSG_RECIPES_NOT_FOUND);
+      }
+      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
+    } else if (type === 'i') {
+      const drinkRecipe = await apiRecipes('thecocktaildb', 'filter', type, searchRecipe);
+      if (drinkRecipe.drinks === null) {
+        return global.alert(MSG_RECIPES_NOT_FOUND);
+      }
+      setDrinks(drinkRecipe.drinks.slice(0, MAX_RECIPE_NUMBER));
+    }
+  }
 
   // Funcao grava o valor do radio button escolhido
   function handleChangeRadio({ target: { value } }) {
@@ -159,7 +171,6 @@ function MainProvider({ children }) {
   /* ----------------------<Details>---------------------------------- */
 
   const setRecipeFavorite = (newFavoriteRecipe) => {
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     if (favoriteRecipes.length !== 0) {
       if (favoriteRecipes.some(({ id }) => id !== newFavoriteRecipe.id)) {
         const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
@@ -173,6 +184,14 @@ function MainProvider({ children }) {
     }
   };
 
+  function unfavoriteBtn(objRecipes) {
+    console.log(objRecipes);
+    const Storage = localStorage.getItem('favoriteRecipes');
+    const newStorage = JSON.parse(Storage).filter((e) => e.id !== objRecipes.id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+    setFavorites(newStorage);
+  }
+
   /* ----------------------<Details>---------------------------------- */
 
   const context = {
@@ -185,9 +204,12 @@ function MainProvider({ children }) {
     searchTyping,
     handleChange,
     searchType,
-    sendSearch,
+    sendSearchFoods,
+    sendSearchDrinks,
     handleChangeRadio,
     setRecipeFavorite,
+    unfavoriteBtn,
+    favoritesStorage,
   };
 
   return (
