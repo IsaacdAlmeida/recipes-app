@@ -51,6 +51,7 @@
   align-items: center;
   background-color: var(--background-color);
   overflow-y: auto;
+  margin-bottom: 60px;
 }
 
 .body-container::-webkit-scrollbar {    
