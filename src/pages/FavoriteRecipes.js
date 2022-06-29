@@ -6,29 +6,6 @@ import doneRecipesContext from '../context/doneRecipesContext';
 import FavoriteIcon from '../components/FavoriteIcon';
 import MainContext from '../context/MainContext';
 
-// const favoriteRecipes = [
-//   {
-//     id: '52771',
-//     type: 'food',
-//     nationality: 'Italian',
-//     category: 'Vegetarian',
-//     alcoholicOrNot: '',
-//     name: 'Spicy Arrabiata Penne',
-//     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-//   },
-//   {
-//     id: '178319',
-//     type: 'drink',
-//     nationality: '',
-//     category: 'Cocktail',
-//     alcoholicOrNot: 'Alcoholic',
-//     name: 'Aquamarine',
-//     image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-//   },
-// ];
-
-// localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-
 function FavoriteRecipes() {
   const {
     clipboard,
@@ -80,14 +57,6 @@ function FavoriteRecipes() {
               Link copied!
             </span>
           ) }
-          {/* <input
-            type="image"
-            data-testid={ `${index}-horizontal-favorite-btn` }
-            src={ blackHeartIcon }
-            id={ index }
-            alt="favorite button"
-            onClick={ () => unfavoriteBtn(recipes) }
-          /> */}
           <FavoriteIcon page="favorite" index={ index } data={ recipes } />
           <Link to={ `/${recipes.type}s/${recipes.id}` }>
             <p data-testid={ `${index}-horizontal-name` }>

@@ -15,7 +15,7 @@ function ExploreFoodsNationalities() {
 
   return (
     <div>
-      <Header pageName="Explore Ingredients" isEnable={ false } />
+      <Header pageName="Explore Nationalities" isEnable />
       {/* Req 79 - Criado select option contendo as opçoẽs das nacionalidades e com uma opção All  */ }
       <select
         data-testid="explore-by-nationality-dropdown"
