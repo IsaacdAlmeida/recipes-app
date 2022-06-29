@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import DetailsDrinks from './pages/DetailsDrinks';
 import DetailsFoods from './pages/DetailsFoods';
@@ -35,7 +35,7 @@ function App() {
       />
       <Route
         exact
-        path="/bebidas/:id/in-progress"
+        path="/drinks/:id/in-progress"
         component={ DrinksRecipesInProgress }
       />
       <Route exact path="/explore" component={ Explore } />
