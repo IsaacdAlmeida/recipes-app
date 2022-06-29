@@ -8,6 +8,7 @@ import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import doneRecipesContext from '../context/doneRecipesContext';
 import { requireApiFood } from '../services/themealdbApi';
+// import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
 
 function MealsRecipesInProgress(props) {
   const { indexMessage } = useContext(doneRecipesContext);
@@ -32,7 +33,7 @@ function MealsRecipesInProgress(props) {
     if (Object.keys(data).length !== 0) {
       setLoading(false);
     }
-    console.log('oi');
+    // console.log('oi');
   }, [data]);
 
   useEffect(() => {
@@ -78,12 +79,6 @@ function MealsRecipesInProgress(props) {
     setIngredientIndex(i);
   };
 
-  // style={ {
-  //   textDecoration:
-  //    ? 'line-through'
-  //    : 'none',
-  // } }
-
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <RenderImage srcImage={ strMealThumb } />
@@ -100,7 +95,6 @@ function MealsRecipesInProgress(props) {
             data-testid={ `${index}-ingredient-step` }
             style={ { textDecoration: isChecked && ingredientIndex === index
               ? 'line-through' : 'none' } }
-
           >
             <input
               type="checkbox"
@@ -114,14 +108,15 @@ function MealsRecipesInProgress(props) {
       <h3>Instructions</h3>
       <p data-testid="instructions">{strInstructions}</p>
       <Link to="/done-recipes">
-        <button
-          type="button"
-          data-testid="finish-recipe-btn"
-          className="finish-recipe-bottom"
-          // onClick={ () => history.push(`/foods/${***.idMeal}/in-progress`) }
-        >
-          Finish Recipe
-        </button>
+        {/* <ButtonFinishRecipe
+          id={ id }
+          name={ strMeal }
+          image={ strMealThumb }
+          type="food"
+          nationality={ strArea }
+          category={ strCategory }
+          alcoholicOrNot: ''
+        /> */}
       </Link>
     </section>
   );
