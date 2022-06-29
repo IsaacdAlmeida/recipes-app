@@ -1,10 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-<<<<<<< HEAD
 import { Switch, Route } from 'react-router-dom';
-=======
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
->>>>>>> 6bbf4b2587c758dc0c6315569a5a8b177daef9de
 import './App.css';
 import DetailsDrinks from './pages/DetailsDrinks';
 import DetailsFoods from './pages/DetailsFoods';
