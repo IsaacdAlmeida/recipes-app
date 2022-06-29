@@ -5,9 +5,9 @@ import CarouselRecommend from '../components/CarouselRecommend';
 import FavoriteIcon from '../components/FavoriteIcon';
 import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
+import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
-import RenderInstructions from '../components/RenderInstructions';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 
 const SIX_NUMB = 6;
@@ -87,7 +87,7 @@ function DetailsFoods(props) {
     <section>
       <RenderImage srcImage={ strMealThumb } />
       <RenderTitle strTitle={ strMeal } />
-      <RenderShare id={ id } />
+      <RenderShare site={ location.pathname } id={ id } />
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>

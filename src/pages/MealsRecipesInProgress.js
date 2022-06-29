@@ -1,26 +1,22 @@
 import PropType from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import FavoriteIcon from '../components/FavoriteIcon';
 import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
+import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
-import RenderInstructions from '../components/RenderInstructions';
-import doneRecipesContext from '../context/doneRecipesContext';
 import { requireApiFood } from '../services/themealdbApi';
+// import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
 
 function MealsRecipesInProgress(props) {
-  const { indexMessage } = useContext(doneRecipesContext);
-
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
 
-  const { history: { location } } = props;
+  const { history: { location, push } } = props;
   const id = location.pathname.split('/')[2];
-  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,7 +29,7 @@ function MealsRecipesInProgress(props) {
     if (Object.keys(data).length !== 0) {
       setLoading(false);
     }
-    console.log('oi');
+    // console.log('oi');
   }, [data]);
 
   useEffect(() => {
@@ -83,8 +79,7 @@ function MealsRecipesInProgress(props) {
     <section>
       <RenderImage srcImage={ strMealThumb } />
       <RenderTitle strTitle={ strMeal } />
-      <RenderShare id={ id } />
-      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
+      <RenderShare site={ `/foods/${id}` } id={ id } />
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
@@ -107,16 +102,14 @@ function MealsRecipesInProgress(props) {
         ))}
       </div>
       <RenderInstructions strInstructions={ strInstructions } />
-      <Link to="/done-recipes">
-        <button
-          type="button"
-          data-testid="finish-recipe-btn"
-          className="finish-recipe-bottom"
-          // onClick={ () => history.push(`/foods/${***.idMeal}/in-progress`) }
-        >
-          Finish Recipe
-        </button>
-      </Link>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        className="finish-recipe-bottom"
+        onClick={ () => push('/done-recipes') }
+      >
+        Finish Recipe
+      </button>
     </section>
   );
 }
@@ -124,6 +117,7 @@ function MealsRecipesInProgress(props) {
 MealsRecipesInProgress.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
+    push: PropType.func.isRequired,
   }).isRequired,
 };
 
