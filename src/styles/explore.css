@@ -1,36 +1,31 @@
-.explore-container{
-    display: flex;
-    justify-content: space-around;
-    height: 200px;
-    width: 100%;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: var(--background-color);
-    flex-direction: column;
+.explore-container {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-flow: column wrap;
+  height: 200px;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .explore-container button {
-  width: 293px;
-  height: 50px;
+  background-color: #fffcae;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
   font: var(--text-black);
   font-size: 30px;
   font-weight: 600;
-  text-transform: uppercase;
+  height: 50px;
   text-align: center;
-  cursor: pointer;
-  -o-transition: all .4s ease-in-out;
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
-  background-color: #FFFCAE;
-  }
-  
-  .explore-container button:hover {
-    background-position: 100% 0;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-    background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
-    box-shadow: 0 4px 15px 0 var(--primary-yellow);
-  }
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 293px;
+}
+
+.explore-container button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}

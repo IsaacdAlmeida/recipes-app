@@ -1,36 +1,31 @@
-.explore-food-container{
-  display: flex;
-  justify-content: space-around;
-  height: 250px;
-  width: 100%;
+.explore-food-container {
   align-items: center;
-  flex-wrap: wrap;
   background-color: var(--background-color);
-  flex-direction: column;
+  display: flex;
+  flex-flow: column wrap;
+  height: 250px;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .explore-food-container button {
-  width: 293px;
-  height: 50px;
+  background-color: #fffcae;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
   font: var(--text-black);
   font-size: 30px;
   font-weight: 600;
-  text-transform: uppercase;
+  height: 50px;
   text-align: center;
-  cursor: pointer;
-  -o-transition: all .4s ease-in-out;
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
-  background-color: #FFFCAE;
-  }
-  
-  .explore-food-container button:hover {
-    background-position: 100% 0;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-    background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
-    box-shadow: 0 4px 15px 0 var(--primary-yellow);
-  }
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 293px;
+}
+
+.explore-food-container button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}

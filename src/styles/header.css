@@ -1,10 +1,10 @@
 .header-container {
-  width: 100%;
-  height: 60px;
+  align-items: center;
   background-color: var(--primary-yellow);
   display: flex;
+  height: 60px;
   justify-content: space-around;
-  align-items: center;
+  width: 100%;
 }
 
 .header-container h3 {
@@ -12,17 +12,3 @@
   font-weight: 600;
   text-transform: uppercase;
 }
-
-
-
-/* .xablau {
-  position: absolute;
-  width: 360px;
-  height: 40px;
-  display: flex;
-  margin-left: -450px;
-}
-
-.search-container {
-  display: flex;
-} */
