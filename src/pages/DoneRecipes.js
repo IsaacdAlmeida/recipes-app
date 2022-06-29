@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
 import doneRecipesContext from '../context/doneRecipesContext';
+import MainContext from '../context/MainContext';
 
 function DoneRecipes() {
   const {
     filtered,
-    indexMessage,
     clipboard,
+    indexMessage,
     filterRecipes } = useContext(doneRecipesContext);
+
+  const { doneRecipes } = useContext(MainContext);
 
   return (
     <div>
@@ -17,25 +20,25 @@ function DoneRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
-        onClick={ () => filterRecipes('all') }
+        onClick={ () => filterRecipes('all', doneRecipes) }
       >
         All
       </button>
       <button
         data-testid="filter-by-food-btn"
         type="button"
-        onClick={ () => filterRecipes('food') }
+        onClick={ () => filterRecipes('food', doneRecipes) }
       >
         Food
       </button>
       <button
         data-testid="filter-by-drink-btn"
         type="button"
-        onClick={ () => filterRecipes('drink') }
+        onClick={ () => filterRecipes('drink', doneRecipes) }
       >
         Drinks
       </button>
-      {console.log(filtered)}
+      { console.log(filtered) }
       { filtered && filtered.map((recipes, index) => (
         <div key={ recipes.id }>
           {/* Req 56 - copiado a msm logica aplicada pelo Issac no component Header */ }

@@ -4,7 +4,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import MainContext from '../context/MainContext';
 
-function FavoriteIcon({ data }) {
+function FavoriteIcon({ data, index, page }) {
   const { setRecipeFavorite, unfavoriteBtn } = useContext(MainContext);
 
   const [isFavoriteIcon, setIconFavorite] = useState(false);
@@ -43,7 +43,8 @@ function FavoriteIcon({ data }) {
     />
   ) : (
     <input
-      data-testid="favorite-btn"
+      data-testid={ page === 'favorite' ? `${index}-horizontal-favorite-btn`
+        : 'favorite-btn' }
       type="image"
       alt="favorite-icon-button"
       src={ blackHeartIcon }
@@ -54,6 +55,8 @@ function FavoriteIcon({ data }) {
 
 FavoriteIcon.propTypes = {
   data: PropType.objectOf(PropType.string).isRequired,
+  index: PropType.number.isRequired,
+  page: PropType.string.isRequired,
 };
 
 export default FavoriteIcon;
