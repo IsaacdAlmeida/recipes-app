@@ -1,0 +1,36 @@
+.explore-food-container{
+  display: flex;
+  justify-content: space-around;
+  height: 250px;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--background-color);
+  flex-direction: column;
+}
+
+.explore-food-container button {
+  width: 293px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  font: var(--text-black);
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  background-color: #FFFCAE;
+  }
+  
+  .explore-food-container button:hover {
+    background-position: 100% 0;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+    box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  }
