@@ -13,6 +13,7 @@ const MSG_RECIPES_NOT_FOUND = 'Sorry, we haven\'t found any recipes for these fi
 
 function MainProvider({ children }) {
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   /* -----------------------<MainProvider>---------------------------- */
 
   const MAX_RECIPE_NUMBER = 12;
@@ -192,6 +193,14 @@ function MainProvider({ children }) {
     setFavorites(newStorage);
   }
 
+  function filterRecipes(type, array) {
+    console.log(array);
+    setFavorites(array.filter((recipes) => {
+      if (type === 'all') return true;
+      return recipes.type === type;
+    }));
+  }
+
   /* ----------------------<Details>---------------------------------- */
 
   const context = {
@@ -209,7 +218,10 @@ function MainProvider({ children }) {
     handleChangeRadio,
     setRecipeFavorite,
     unfavoriteBtn,
+    filterRecipes,
     favoritesStorage,
+    favoriteRecipes,
+    doneRecipes,
   };
 
   return (
