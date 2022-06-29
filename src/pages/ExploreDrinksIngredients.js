@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
 import { getIngredientOrNationality } from '../services/themealdbApi';
 import Footer from '../components/Footer';
+import '../styles/main.css';
+import '../styles/recipecard.css';
 
 const MAX_RECIPES = 12;
 
@@ -25,28 +27,33 @@ function ExploreDrinksIngredients() {
   return (
     <div>
       <Header pageName="Explore Ingredients" isEnable={ false } />
-      { ingredient && ingredient.drinks.slice(0, MAX_RECIPES)
-        .map(({ strIngredient1 }, index) => (
-          <Link
-            key={ strIngredient1 }
-            onClick={
-              async () => getRecipes('thecocktaildb', 'filter', 'i', strIngredient1)
-            }
-            to="/drinks/"
-          >
-            <div
-              data-testid={ `${index}-ingredient-card` }
-            >
-              <img
-                style={ { width: '100px' } }
-                data-testid={ `${index}-card-img` }
-                src={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
-                alt={ `${strIngredient1}` }
-              />
-              <p data-testid={ `${index}-card-name` }>{ strIngredient1 }</p>
+      <div className="body-container">
+        { ingredient && ingredient.drinks.slice(0, MAX_RECIPES)
+          .map(({ strIngredient1 }, index) => (
+            <div className="recipe-container" key={ strIngredient1 }>
+              <Link
+                onClick={
+                  async () => getRecipes('thecocktaildb', 'filter', 'i', strIngredient1)
+                }
+                to="/drinks/"
+              >
+                <div
+                  className="card-container"
+                  data-testid={ `${index}-ingredient-card` }
+                >
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
+                    alt={ `${strIngredient1}` }
+                  />
+                  <div className="text-container">
+                    <h4 data-testid={ `${index}-card-name` }>{ strIngredient1 }</h4>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        )) }
+          )) }
+      </div>
       <div>
         <Footer />
       </div>
