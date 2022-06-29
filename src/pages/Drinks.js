@@ -26,7 +26,7 @@ function Drinks() {
         principal */}
         { recipesClicked
           ? recipesClicked.drinks.slice(0, MAX_RECIPES).map((ingredient, index) => (
-            <div key={ index } className="xablau">
+            <div key={ index } className="recipe-container">
               <RecipeCard
                 drinks={ ingredient }
                 index={ index }
@@ -34,7 +34,7 @@ function Drinks() {
               />
             </div>
           )) : drinks.map((item, index) => (
-            <div key={ index }>
+            <div key={ index } className="recipe-container">
               <RecipeCard
                 drinks={ item }
                 index={ index }

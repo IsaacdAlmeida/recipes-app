@@ -28,7 +28,9 @@ function RecipeCard({ foods, index, drinks }) {
           src={ strDrinkThumb }
           alt={ `cup of ${strDrink}` }
         />
-        <h4 data-testid={ `${index}-card-name` }>{ strDrink }</h4>
+        <div className="text-container">
+          <h4 data-testid={ `${index}-card-name` }>{ strDrink }</h4>
+        </div>
       </div>
     );
   }
