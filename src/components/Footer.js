@@ -3,15 +3,11 @@ import { Link } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 import exploreIcon from '../images/exploreIcon.svg';
+import '../styles/footer.css';
 
 function Footer() {
-  const footerStyle = {
-    position: 'fixed',
-    bottom: '0px',
-  };
-
   return (
-    <div data-testid="footer" style={ footerStyle }>
+    <div data-testid="footer" className="footer-container">
       <Link to="/drinks">
         <input
           type="image"

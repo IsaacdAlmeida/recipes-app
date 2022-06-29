@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import MainContext from '../context/MainContext';
+import '../styles/header.css';
 
 function HeaderSearch() {
   const {
@@ -26,7 +27,7 @@ function HeaderSearch() {
 
   return (
     // Req 13
-    <div>
+    <div className="search-container">
       <label htmlFor="ingredients">
         Ingredients
         <input

@@ -1,0 +1,28 @@
+.header-container {
+  width: 100%;
+  height: 60px;
+  background-color: var(--primary-yellow);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-container h3 {
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+
+
+/* .xablau {
+  position: absolute;
+  width: 360px;
+  height: 40px;
+  display: flex;
+  margin-left: -450px;
+}
+
+.search-container {
+  display: flex;
+} */

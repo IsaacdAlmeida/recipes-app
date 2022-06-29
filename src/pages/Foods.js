@@ -5,6 +5,7 @@ import RecipeCard from '../components/RecipeCard';
 import ButtonCategoriesFoodsFilter from '../components/ButtonCategoriesFoodsFilter';
 import explorerContext from '../context/exploreContext';
 import Footer from '../components/Footer';
+import '../styles/main.css';
 
 const MAX_RECIPES = 12;
 
@@ -16,16 +17,16 @@ function Foods() {
       <div>
         <Header pageName="Foods" />
       </div>
-      <div>
+      <div className="button-container">
         <ButtonCategoriesFoodsFilter />
       </div>
-      <div>
+      <div className="body-container">
         {/* Req 77 - RecipesClicked para caso ao iniciar a tela com o array preenchido
         deve montar encima dessa informação, do contrário, mantem a informação inicial da tela
         principal */}
         { recipesClicked
           ? recipesClicked.meals.slice(0, MAX_RECIPES).map((ingredient, index) => (
-            <div key={ index }>
+            <div key={ index } className="recipe-container">
               <RecipeCard
                 foods={ ingredient }
                 index={ index }
@@ -33,7 +34,7 @@ function Foods() {
               />
             </div>
           )) : foods.map((item, index) => (
-            <div key={ index }>
+            <div key={ index } className="recipe-container">
               <RecipeCard
                 foods={ item }
                 index={ index }
