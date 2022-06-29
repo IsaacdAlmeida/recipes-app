@@ -79,7 +79,7 @@ function MealsRecipesInProgress(props) {
     <section>
       <RenderImage srcImage={ strMealThumb } />
       <RenderTitle strTitle={ strMeal } />
-      <RenderShare id={ id } />
+      <RenderShare site={ `/foods/${id}` } id={ id } />
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
@@ -90,6 +90,7 @@ function MealsRecipesInProgress(props) {
             data-testid={ `${index}-ingredient-step` }
             style={ { textDecoration: isChecked && ingredientIndex === index
               ? 'line-through' : 'none' } }
+
           >
             <input
               type="checkbox"

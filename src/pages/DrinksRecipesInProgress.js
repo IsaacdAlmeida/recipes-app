@@ -10,7 +10,7 @@ import { requireApiFood } from '../services/themealdbApi';
 // import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
 
 function DrinksRecipesInProgress(props) {
-  console.log('oi');
+  // console.log('oi');
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
@@ -71,7 +71,7 @@ function DrinksRecipesInProgress(props) {
     <section>
       <RenderImage srcImage={ strDrinkThumb } />
       <RenderTitle strTitle={ strDrink } />
-      <RenderShare id={ id } />
+      <RenderShare site={ `/drinks/${id}` } id={ id } />
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strAlcoholic } />
       <h3>Ingredients</h3>
