@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import useEvent from '@testing-library/user-event';
-import Login from '../pages/Login';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
 import App from '../App';
 
@@ -10,10 +9,12 @@ const PASSWORD_INPUT_TEST_ID = 'password-input';
 const LOGIN_SUBMIT_BNT_TEST_ID = 'login-submit-btn';
 const VALID_EMAIL = 'test@test.com';
 const VALID_PASSWORD = 'test123';
+const INVALID_EMAIL = 'test';
+const INVALID_PASSWORD = 'test';
 
 describe('Testing page Login', () => {
   it('Testing componentes in screen, Requirement 2', () => {
-    render(<Login />);
+    renderWithRouter(<App />);
 
     expect(screen.getByTestId(EMAIL_INPUT_TEST_ID)).toBeInTheDocument();
     expect(screen.getByTestId(PASSWORD_INPUT_TEST_ID)).toBeInTheDocument();
@@ -21,7 +22,7 @@ describe('Testing page Login', () => {
   });
 
   it('Testing writing in input field', () => {
-    render(<Login />);
+    renderWithRouter(<App />);
 
     const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
     const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
@@ -34,7 +35,7 @@ describe('Testing page Login', () => {
   });
 
   it('Testing if form inputs are valid', () => {
-    render(<Login />);
+    renderWithRouter(<App />);
 
     const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
     const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
@@ -48,20 +49,34 @@ describe('Testing page Login', () => {
     expect(bntSubmit).not.toBeDisabled();
   });
 
-  it.only('Testing Redirect to p p', () => {
-    const { history, debug } = renderWithRouter(<App />);
+  it('testing if you enter an invalid email button is not enabled', () => {
+    renderWithRouter(<App />);
+
+    const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
+    const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
+    const bntSubmit = screen.getByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
+
+    expect(bntSubmit).toBeDisabled();
+
+    useEvent.type(inputEmailEL, INVALID_EMAIL);
+    useEvent.type(inputPassword, INVALID_PASSWORD);
+
+    expect(bntSubmit).toBeDisabled();
+  });
+
+  it('Testing Redirect to foods page', () => {
+    const { history } = renderWithRouter(<App />);
 
     expect(history.location.pathname).toBe('/');
 
-    const inputEmailEL = screen.findByTestId(EMAIL_INPUT_TEST_ID);
-    const inputPassword = screen.findByTestId(PASSWORD_INPUT_TEST_ID);
-    const bntSubmit = screen.findByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
+    const inputEmailEL = screen.getByTestId(EMAIL_INPUT_TEST_ID);
+    const inputPassword = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
+    const bntSubmit = screen.getByTestId(LOGIN_SUBMIT_BNT_TEST_ID);
 
     useEvent.type(inputEmailEL, VALID_EMAIL);
     useEvent.type(inputPassword, VALID_PASSWORD);
     useEvent.click(bntSubmit);
 
-    debug();
     expect(history.location.pathname).toBe('/foods');
   });
 });
