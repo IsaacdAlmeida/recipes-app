@@ -1,5 +1,5 @@
 import PropType from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
 import CarouselRecommend from '../components/CarouselRecommend';
 import FavoriteIcon from '../components/FavoriteIcon';
@@ -7,14 +7,12 @@ import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
-import doneRecipesContext from '../context/doneRecipesContext';
+import RenderInstructions from '../components/RenderInstructions';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 
 const SIX_NUMB = 6;
 
 function DetailsFoods(props) {
-  const { indexMessage } = useContext(doneRecipesContext);
-
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -23,7 +21,6 @@ function DetailsFoods(props) {
 
   const { history: { location } } = props;
   const id = location.pathname.split('/')[2];
-  // setId(id);
 
   useEffect(() => {
     async function fetchData() {
@@ -64,8 +61,17 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
+  const [url, setUrl] = useState();
+
   const { strMealThumb, strMeal, strCategory, strInstructions,
     strYoutube, strArea } = data;
+
+  useEffect(() => {
+    if (strYoutube) {
+      const urlFormatted = strYoutube.replace('watch?v=', 'embed/');
+      setUrl(urlFormatted);
+    }
+  }, [strYoutube]);
 
   const objFavorite = {
     id,
@@ -82,12 +88,10 @@ function DetailsFoods(props) {
       <RenderImage srcImage={ strMealThumb } />
       <RenderTitle strTitle={ strMeal } />
       <RenderShare id={ id } />
-      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
       <ul>
-        {/* provavelmete colocarei essa parte em um componente */}
         {arrayIngredients.map((ingredient, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -97,17 +101,14 @@ function DetailsFoods(props) {
           </li>
         ))}
       </ul>
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{strInstructions}</p>
+      <RenderInstructions strInstructions={ strInstructions } />
       <iframe
         data-testid="video"
         width="100%"
         height="315"
-        src={ strYoutube }
+        src={ url }
         title="YouTube video player"
         frameBorder="0"
-        allow={ `accelerometer; autoplay; clipboard-write; encrypted-media;
-        gyroscope; picture-in-picture` }
       />
       <CarouselRecommend
         arrayRecomendation={ arrayRecomendation }

@@ -6,6 +6,7 @@ import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
+import RenderInstructions from '../components/RenderInstructions';
 import doneRecipesContext from '../context/doneRecipesContext';
 import { requireApiFood } from '../services/themealdbApi';
 
@@ -78,12 +79,6 @@ function MealsRecipesInProgress(props) {
     setIngredientIndex(i);
   };
 
-  // style={ {
-  //   textDecoration:
-  //    ? 'line-through'
-  //    : 'none',
-  // } }
-
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <RenderImage srcImage={ strMealThumb } />
@@ -111,8 +106,7 @@ function MealsRecipesInProgress(props) {
           </p>
         ))}
       </div>
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{strInstructions}</p>
+      <RenderInstructions strInstructions={ strInstructions } />
       <Link to="/done-recipes">
         <button
           type="button"
