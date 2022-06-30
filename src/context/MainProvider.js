@@ -12,6 +12,8 @@ import { apiRecipes } from '../services/themealdbApi';
 const MSG_RECIPES_NOT_FOUND = 'Sorry, we haven\'t found any recipes for these filters.';
 
 function MainProvider({ children }) {
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   /* -----------------------<MainProvider>---------------------------- */
 
   const MAX_RECIPE_NUMBER = 12;
@@ -21,6 +23,7 @@ function MainProvider({ children }) {
   const [foodsCategories, setFoodsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [buttonToggle, setButtonToggle] = useState(false);
+  const [favoritesStorage, setFavorites] = useState(favoriteRecipes);
 
   const foodsArraySliced = async () => {
     const foodsArray = await requestFoods();
@@ -178,7 +181,6 @@ function MainProvider({ children }) {
   /* ----------------------<Details>---------------------------------- */
 
   const setRecipeFavorite = (newFavoriteRecipe) => {
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     if (favoriteRecipes.length !== 0) {
       if (favoriteRecipes.some(({ id }) => id !== newFavoriteRecipe.id)) {
         const newFavoriteRecipes = [...favoriteRecipes, newFavoriteRecipe];
@@ -191,6 +193,22 @@ function MainProvider({ children }) {
       localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
     }
   };
+
+  function unfavoriteBtn(objRecipes) {
+    console.log(objRecipes);
+    const Storage = localStorage.getItem('favoriteRecipes');
+    const newStorage = JSON.parse(Storage).filter((e) => e.id !== objRecipes.id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+    setFavorites(newStorage);
+  }
+
+  function filterRecipes(type, array) {
+    console.log(array);
+    setFavorites(array.filter((recipes) => {
+      if (type === 'all') return true;
+      return recipes.type === type;
+    }));
+  }
 
   /* ----------------------<Details>---------------------------------- */
 
@@ -210,6 +228,11 @@ function MainProvider({ children }) {
     setRecipeFavorite,
     handleAllFoods,
     handleAllDrinks,
+    unfavoriteBtn,
+    filterRecipes,
+    favoritesStorage,
+    favoriteRecipes,
+    doneRecipes,
   };
 
   return (

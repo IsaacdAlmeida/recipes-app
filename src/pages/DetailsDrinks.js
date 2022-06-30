@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
 import PropType from 'prop-types';
-import CarouselRecommend from '../components/CarouselRecommend';
-import doneRecipesContext from '../context/doneRecipesContext';
-import shareIcon from '../images/shareIcon.svg';
-import FavoriteIcon from '../components/FavoriteIcon';
-import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import React, { useEffect, useState } from 'react';
 import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
+import CarouselRecommend from '../components/CarouselRecommend';
+import FavoriteIcon from '../components/FavoriteIcon';
+import RenderCategory from '../components/RenderCategory';
+import RenderImage from '../components/RenderImage';
+import RenderInstructions from '../components/RenderInstructions';
+import RenderShare from '../components/RenderShare';
+import RenderTitle from '../components/RenderTitle';
+import { apiAttributes, requireApiFood } from '../services/themealdbApi';
 
 const SIX_NUMB = 6;
 
 function DetailsDrinks(props) {
-  const { clipboard, indexMessage } = useContext(doneRecipesContext);
-
   const [data, setData] = useState({});
   const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -73,29 +74,11 @@ function DetailsDrinks(props) {
 
   return isLoading ? <p>Loading ...</p> : (
     <section>
-      <img
-        alt="img-recipe"
-        data-testid="recipe-photo"
-        src={ strDrinkThumb }
-        width="100%"
-      />
-      <h2
-        data-testid="recipe-title"
-      >
-        {strDrink}
-      </h2>
-      <input
-        type="image"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ clipboard }
-        value={ `http://localhost:3000/drinks/${id}` }
-        alt="share button"
-        id={ id }
-      />
-      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
+      <RenderImage srcImage={ strDrinkThumb } />
+      <RenderTitle strTitle={ strDrink } />
+      <RenderShare site={ location.pathname } id={ id } />
       <FavoriteIcon data={ objFavorite } />
-      <p data-testid="recipe-category">{strAlcoholic}</p>
+      <RenderCategory strCategory={ strAlcoholic } />
       <h3>Ingredients</h3>
       <ul>
         {arrayIngredients.map((ingredient, index) => (
@@ -107,8 +90,7 @@ function DetailsDrinks(props) {
           </li>
         ))}
       </ul>
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{strInstructions}</p>
+      <RenderInstructions strInstructions={ strInstructions } />
       <CarouselRecommend
         arrayRecomendation={ arrayRecomendation }
         way="drinks"

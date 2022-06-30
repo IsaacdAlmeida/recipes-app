@@ -4,7 +4,8 @@ import doneRecipesContext from './doneRecipesContext';
 
 function DoneRecipesProvider({ children }) {
   const recipesDone = JSON.parse(localStorage.getItem('doneRecipes'));
-  const [indexMessage, setIndexMessage] = useState(recipesDone);
+
+  const [indexMessage, setIndexMessage] = useState();
   const [filtered, setFiltered] = useState(recipesDone);
 
   // Req 57 - Aplicado a funcionalidade de copiar o link da receita clicada
@@ -15,8 +16,9 @@ function DoneRecipesProvider({ children }) {
   }
 
   // Req 58 - Implentado a logica para filtrar pelo tipo da receita
-  function filterRecipes(type) {
-    setFiltered(recipesDone.filter((recipes) => {
+  function filterRecipes(type, array) {
+    console.log(array);
+    setFiltered(array.filter((recipes) => {
       if (type === 'all') return true;
       return recipes.type === type;
     }));

@@ -1,42 +1,36 @@
 import PropType from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import ButtonFixedRecipes from '../components/ButtonFixedRecipes';
-import CarouselRecommend from '../components/CarouselRecommend';
 import FavoriteIcon from '../components/FavoriteIcon';
 import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
 import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
-import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import { requireApiFood } from '../services/themealdbApi';
+// import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
 
-const SIX_NUMB = 6;
-
-function DetailsFoods(props) {
+function MealsRecipesInProgress(props) {
   const [data, setData] = useState({});
-  const [arrayRecomendation, setRecomendation] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
   const [arrayMeasures, setMeasure] = useState([]);
 
-  const { history: { location } } = props;
+  const { history: { location, push } } = props;
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
     async function fetchData() {
-      const fetchRecomendation = await apiAttributes('s', '', '/drinks');
-      setRecomendation(fetchRecomendation.drinks.slice(0, SIX_NUMB));
       setData(await requireApiFood('themealdb', id, 'meals'));
     }
     fetchData();
   }, [id]);
 
   useEffect(() => {
-    if (Object.keys(arrayRecomendation).length !== 0
-      && Object.keys(data).length !== 0) {
+    if (Object.keys(data).length !== 0) {
       setLoading(false);
     }
-  }, [arrayRecomendation, data]);
+    // console.log('oi');
+  }, [data]);
 
   useEffect(() => {
     /* provavelmete colocarei essa parte em um componente */
@@ -61,17 +55,7 @@ function DetailsFoods(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
-  const [url, setUrl] = useState();
-
-  const { strMealThumb, strMeal, strCategory, strInstructions,
-    strYoutube, strArea } = data;
-
-  useEffect(() => {
-    if (strYoutube) {
-      const urlFormatted = strYoutube.replace('watch?v=', 'embed/');
-      setUrl(urlFormatted);
-    }
-  }, [strYoutube]);
+  const { strMealThumb, strMeal, strCategory, strInstructions, strArea } = data;
 
   const objFavorite = {
     id,
@@ -83,46 +67,58 @@ function DetailsFoods(props) {
     image: strMealThumb,
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+  const [ingredientIndex, setIngredientIndex] = useState('');
+
+  const handleOnChange = (i) => {
+    setIsChecked(!isChecked);
+    setIngredientIndex(i);
+  };
+
   return isLoading ? <p>Loading ...</p> : (
     <section>
       <RenderImage srcImage={ strMealThumb } />
       <RenderTitle strTitle={ strMeal } />
-      <RenderShare site={ location.pathname } id={ id } />
+      <RenderShare site={ `/foods/${id}` } id={ id } />
       <FavoriteIcon data={ objFavorite } />
       <RenderCategory strCategory={ strCategory } />
       <h3>Ingredients</h3>
-      <ul>
+      <div>
         {arrayIngredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
+          <p
             key={ index }
+            data-testid={ `${index}-ingredient-step` }
+            style={ { textDecoration: isChecked && ingredientIndex === index
+              ? 'line-through' : 'none' } }
+
           >
+            <input
+              type="checkbox"
+              id={ index }
+              onClick={ () => handleOnChange(index) }
+            />
             {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
-          </li>
+          </p>
         ))}
-      </ul>
+      </div>
       <RenderInstructions strInstructions={ strInstructions } />
-      <iframe
-        data-testid="video"
-        width="100%"
-        height="315"
-        src={ url }
-        title="YouTube video player"
-        frameBorder="0"
-      />
-      <CarouselRecommend
-        arrayRecomendation={ arrayRecomendation }
-        way="foods"
-      />
-      <ButtonFixedRecipes />
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        className="finish-recipe-bottom"
+        onClick={ () => push('/done-recipes') }
+      >
+        Finish Recipe
+      </button>
     </section>
   );
 }
 
-DetailsFoods.propTypes = {
+MealsRecipesInProgress.propTypes = {
   history: PropType.shape({
     location: PropType.objectOf(PropType.string).isRequired,
+    push: PropType.func.isRequired,
   }).isRequired,
 };
 
-export default DetailsFoods;
+export default MealsRecipesInProgress;

@@ -19,16 +19,10 @@ function Login(props) {
   }, [email, password]);
 
   const handleInput = ({ target: { name, value } }) => {
-    switch (name) {
-    case 'email': {
+    if (name === 'email') {
       setEmail(value);
-      break;
-    } case 'password': {
+    } else if (name === 'password') {
       setPassword(value);
-      break;
-    } default: {
-      break;
-    }
     }
   };
 
