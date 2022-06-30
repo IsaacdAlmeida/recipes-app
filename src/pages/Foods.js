@@ -52,19 +52,6 @@ function Foods() {
                   drinks={ undefined }
                 />
               </Link>
-              <RecipeCard
-                foods={ ingredient }
-                index={ index }
-                drinks={ undefined }
-              />
-            </div>
-          )) : foods.map((item, index) => (
-            <div key={ index } className="recipe-container">
-              <RecipeCard
-                foods={ item }
-                index={ index }
-                drinks={ undefined }
-              />
             </div>
           )) }
       </div>
