@@ -28,7 +28,7 @@
   color: var(--text-black);
   font-size: 16px;
   font-weight: 600;
+  margin-top: auto;
   text-align: center;
   text-transform: uppercase;
-  margin-top: auto;
 }
