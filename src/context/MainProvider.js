@@ -104,6 +104,15 @@ function MainProvider({ children }) {
       setButtonToggle(false);
     }
   };
+
+  const handleAllFoods = async () => {
+    foodsArraySliced();
+  };
+
+  const handleAllDrinks = async () => {
+    drinksArraySliced();
+  };
+
   /* -----------------------<MainProvider>---------------------------- */
   /* ----------------------<HeaderProvider>--------------------------- */
 
@@ -217,6 +226,8 @@ function MainProvider({ children }) {
     sendSearchDrinks,
     handleChangeRadio,
     setRecipeFavorite,
+    handleAllFoods,
+    handleAllDrinks,
     unfavoriteBtn,
     filterRecipes,
     favoritesStorage,
