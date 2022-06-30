@@ -126,6 +126,8 @@
   background-color: #fffcae;
   border: 1px solid var(--primary-yellow);
   border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
   margin: 10px;
   padding: 3px;
   text-align: center;
