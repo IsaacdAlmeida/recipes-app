@@ -9,6 +9,7 @@ import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import '../styles/details.css';
 
 const SIX_NUMB = 6;
 
@@ -73,30 +74,44 @@ function DetailsDrinks(props) {
   };
 
   return isLoading ? <p>Loading ...</p> : (
-    <section>
-      <RenderImage srcImage={ strDrinkThumb } />
-      <RenderTitle strTitle={ strDrink } />
-      <RenderShare site={ location.pathname } id={ id } />
-      <FavoriteIcon data={ objFavorite } />
-      <RenderCategory strCategory={ strAlcoholic } />
-      <h3>Ingredients</h3>
-      <ul>
-        {arrayIngredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-          >
-            {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
-          </li>
-        ))}
-      </ul>
-      <RenderInstructions strInstructions={ strInstructions } />
-      <CarouselRecommend
-        arrayRecomendation={ arrayRecomendation }
-        way="drinks"
-      />
-      <ButtonFixedRecipes />
-    </section>
+    <div className="details-container">
+      <div className="details-header">
+        <RenderImage srcImage={ strDrinkThumb } />
+        <RenderTitle strTitle={ strDrink } />
+      </div>
+      <div className="details-icons">
+        <RenderShare site={ location.pathname } id={ id } />
+        <FavoriteIcon data={ objFavorite } />
+      </div>
+      <div className="details-category">
+        <RenderCategory strCategory={ strAlcoholic } />
+      </div>
+      <div className="details-ingredients">
+        <h3>Ingredients</h3>
+        <ul>
+          {arrayIngredients.map((ingredient, index) => (
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              key={ index }
+            >
+              {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="details-instructions">
+        <RenderInstructions strInstructions={ strInstructions } />
+      </div>
+      <div className="carousel-content">
+        <CarouselRecommend
+          arrayRecomendation={ arrayRecomendation }
+          way="drinks"
+        />
+      </div>
+      <div className="details-button">
+        <ButtonFixedRecipes />
+      </div>
+    </div>
   );
 }
 

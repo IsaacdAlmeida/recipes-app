@@ -42,7 +42,7 @@
   font-weight: 600;
   justify-content: center;
   margin-top: 5px;
-  width: 50%;
+  width: 90%;
 }
 
 .details-ingredients {
@@ -62,6 +62,17 @@
   font-size: 16px;
   font-weight: 600;
   margin-top: 5px;
+}
+
+.details-ingredients p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.details-ingredients input {
+  margin: 2px;
+  vertical-align: baseline;
 }
 
 .details-instructions {
@@ -97,4 +108,30 @@
 .carousel-content iframe {
   border-radius: 5px;
   margin: 10px;
+}
+
+.details-button button{
+  background-color: var(--primary-red);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--text-black);
+  font-size: 30px;
+  font-weight: 600;
+  height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 360px;
+}
+
+.details-button button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}
+
+.details-button button:focus {
+  outline: none;
 }
