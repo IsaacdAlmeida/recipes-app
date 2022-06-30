@@ -3,7 +3,7 @@ import React from 'react';
 
 function RenderInstructions({ strInstructions }) {
   return (
-    <div>
+    <div className="details-instruction-text">
       <h3>Instructions</h3>
       <p data-testid="instructions">{strInstructions}</p>
     </div>

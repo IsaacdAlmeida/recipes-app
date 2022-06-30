@@ -1,0 +1,137 @@
+.details-container {
+  align-items: center;
+  background-color: #fffcae;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+}
+
+.image-details {
+  display: flex;
+  justify-content: center;
+}
+
+.image-details img {
+  border-radius: 8px;
+  margin-top: 5px;
+  object-fit: cover;
+  width: 80%;
+}
+
+.details-header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-header h2 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.details-icons {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.details-category {
+  display: flex;
+  font-size: 28px;
+  font-weight: 600;
+  justify-content: center;
+  margin-top: 5px;
+  width: 90%;
+}
+
+.details-ingredients {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.details-ingredients h3 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.details-ingredients li {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.details-ingredients p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.details-ingredients input {
+  margin: 2px;
+  vertical-align: baseline;
+}
+
+.details-instructions {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+.details-instruction-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-instructions h3 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.details-instructions p {
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: justify;
+}
+
+.carousel-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-content iframe {
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.details-button button {
+  background-color: var(--primary-red);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--text-black);
+  font-size: 30px;
+  font-weight: 600;
+  height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 360px;
+}
+
+.details-button button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}
+
+.details-button button:focus {
+  outline: none;
+}

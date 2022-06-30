@@ -8,6 +8,7 @@ import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import { requireApiFood } from '../services/themealdbApi';
 // import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
+import '../styles/details.css';
 
 function DrinksRecipesInProgress(props) {
   // console.log('oi');
@@ -68,14 +69,23 @@ function DrinksRecipesInProgress(props) {
   };
 
   return isLoading ? <p>Loading ...</p> : (
-    <section>
-      <RenderImage srcImage={ strDrinkThumb } />
-      <RenderTitle strTitle={ strDrink } />
-      <RenderShare site={ `/drinks/${id}` } id={ id } />
-      <FavoriteIcon data={ objFavorite } />
-      <RenderCategory strCategory={ strAlcoholic } />
-      <h3>Ingredients</h3>
-      <div>
+    <div className="details-container">
+      <div className="details-header">
+
+        <RenderImage srcImage={ strDrinkThumb } />
+        <RenderTitle strTitle={ strDrink } />
+      </div>
+      <div className="details-icons">
+
+        <RenderShare site={ `/drinks/${id}` } id={ id } />
+        <FavoriteIcon data={ objFavorite } />
+      </div>
+      <div className="details-category">
+
+        <RenderCategory strCategory={ strAlcoholic } />
+      </div>
+      <div className="details-ingredients">
+        <h3>Ingredients</h3>
         {arrayIngredients.map((ingredient, index) => (
           <p key={ index } data-testid={ `${index}-ingredient-step` }>
             <input type="checkbox" />
@@ -83,16 +93,22 @@ function DrinksRecipesInProgress(props) {
           </p>
         ))}
       </div>
-      <RenderInstructions strInstructions={ strInstructions } />
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
-        className="finish-recipe-bottom"
-        onClick={ () => push('/done-recipes') }
-      >
-        Finish Recipe
-      </button>
-    </section>
+      <div className="details-instructions">
+
+        <RenderInstructions strInstructions={ strInstructions } />
+      </div>
+      <div className="details-button">
+
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="finish-recipe-bottom"
+          onClick={ () => push('/done-recipes') }
+        >
+          Finish Recipe
+        </button>
+      </div>
+    </div>
   );
 }
 

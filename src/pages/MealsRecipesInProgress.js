@@ -8,6 +8,7 @@ import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import { requireApiFood } from '../services/themealdbApi';
 // import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
+import '../styles/details.css';
 
 function MealsRecipesInProgress(props) {
   const [data, setData] = useState({});
@@ -76,14 +77,20 @@ function MealsRecipesInProgress(props) {
   };
 
   return isLoading ? <p>Loading ...</p> : (
-    <section>
-      <RenderImage srcImage={ strMealThumb } />
-      <RenderTitle strTitle={ strMeal } />
-      <RenderShare site={ `/foods/${id}` } id={ id } />
-      <FavoriteIcon data={ objFavorite } />
-      <RenderCategory strCategory={ strCategory } />
-      <h3>Ingredients</h3>
-      <div>
+    <div className="details-container">
+      <div className="details-header">
+        <RenderImage srcImage={ strMealThumb } />
+        <RenderTitle strTitle={ strMeal } />
+      </div>
+      <div className="details-icons">
+        <RenderShare site={ `/foods/${id}` } id={ id } />
+        <FavoriteIcon data={ objFavorite } />
+      </div>
+      <div className="details-category">
+        <RenderCategory strCategory={ strCategory } />
+      </div>
+      <div className="details-ingredients">
+        <h3>Ingredients</h3>
         {arrayIngredients.map((ingredient, index) => (
           <p
             key={ index }
@@ -101,16 +108,20 @@ function MealsRecipesInProgress(props) {
           </p>
         ))}
       </div>
-      <RenderInstructions strInstructions={ strInstructions } />
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
-        className="finish-recipe-bottom"
-        onClick={ () => push('/done-recipes') }
-      >
-        Finish Recipe
-      </button>
-    </section>
+      <div className="details-instructions">
+        <RenderInstructions strInstructions={ strInstructions } />
+      </div>
+      <div className="details-button">
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="finish-recipe-bottom"
+          onClick={ () => push('/done-recipes') }
+        >
+          Finish Recipe
+        </button>
+      </div>
+    </div>
   );
 }
 

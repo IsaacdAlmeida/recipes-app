@@ -9,6 +9,7 @@ import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
 import { apiAttributes, requireApiFood } from '../services/themealdbApi';
+import '../styles/details.css';
 
 const SIX_NUMB = 6;
 
@@ -84,38 +85,50 @@ function DetailsFoods(props) {
   };
 
   return isLoading ? <p>Loading ...</p> : (
-    <section>
-      <RenderImage srcImage={ strMealThumb } />
-      <RenderTitle strTitle={ strMeal } />
-      <RenderShare site={ location.pathname } id={ id } />
-      <FavoriteIcon data={ objFavorite } />
-      <RenderCategory strCategory={ strCategory } />
-      <h3>Ingredients</h3>
-      <ul>
-        {arrayIngredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-          >
-            {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
-          </li>
-        ))}
-      </ul>
-      <RenderInstructions strInstructions={ strInstructions } />
-      <iframe
-        data-testid="video"
-        width="100%"
-        height="315"
-        src={ url }
-        title="YouTube video player"
-        frameBorder="0"
-      />
-      <CarouselRecommend
-        arrayRecomendation={ arrayRecomendation }
-        way="foods"
-      />
-      <ButtonFixedRecipes />
-    </section>
+    <div className="details-container">
+      <div className="details-header">
+        <RenderImage srcImage={ strMealThumb } />
+        <RenderTitle strTitle={ strMeal } />
+      </div>
+      <div className="details-icons">
+        <RenderShare site={ location.pathname } id={ id } />
+        <FavoriteIcon data={ objFavorite } />
+      </div>
+      <div className="details-category">
+        <RenderCategory strCategory={ strCategory } />
+      </div>
+      <div className="details-ingredients">
+        <h3>Ingredients</h3>
+        <ul>
+          {arrayIngredients.map((ingredient, index) => (
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              key={ index }
+            >
+              {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="details-instructions">
+        <RenderInstructions strInstructions={ strInstructions } />
+      </div>
+      <div className="carousel-content">
+        <iframe
+          data-testid="video"
+          src={ url }
+          title="YouTube video player"
+          frameBorder="0"
+        />
+        <CarouselRecommend
+          arrayRecomendation={ arrayRecomendation }
+          way="foods"
+        />
+      </div>
+      <div className="details-button">
+        <ButtonFixedRecipes />
+      </div>
+    </div>
   );
 }
 
