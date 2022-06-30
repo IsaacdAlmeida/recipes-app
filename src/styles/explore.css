@@ -1,0 +1,31 @@
+.explore-container {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-flow: column wrap;
+  height: 200px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.explore-container button {
+  background-color: #fffcae;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--text-black);
+  font-size: 30px;
+  font-weight: 600;
+  height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 293px;
+}
+
+.explore-container button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}

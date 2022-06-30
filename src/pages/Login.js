@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
+import '../styles/login.css';
 
 function Login(props) {
   const [email, setEmail] = useState('');
@@ -37,31 +38,37 @@ function Login(props) {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <h2>Login</h2>
-      <input
-        data-testid="email-input"
-        name="email"
-        placeholder="Email"
-        type="email"
-        onChange={ handleInput }
-        value={ email }
-      />
-      <input
-        data-testid="password-input"
-        name="password"
-        placeholder="Password"
-        type="password"
-        onChange={ handleInput }
-        value={ password }
-      />
-      <button
-        data-testid="login-submit-btn"
-        disabled={ isDisabled }
-        type="submit"
-      >
-        Enviar
-      </button>
+    <form onSubmit={ handleSubmit } className="form-container">
+      <div className="logo-container">
+        <h2>Login</h2>
+      </div>
+      <div className="input-container">
+        <input
+          data-testid="email-input"
+          name="email"
+          placeholder="Email"
+          type="email"
+          onChange={ handleInput }
+          value={ email }
+        />
+        <input
+          data-testid="password-input"
+          name="password"
+          placeholder="Password"
+          type="password"
+          onChange={ handleInput }
+          value={ password }
+        />
+      </div>
+      <div className="button-login">
+        <button
+          data-testid="login-submit-btn"
+          disabled={ isDisabled }
+          type="submit"
+        >
+          Entrar
+        </button>
+      </div>
     </form>
   );
 }

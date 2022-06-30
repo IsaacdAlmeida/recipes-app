@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
 import Footer from '../components/Footer';
+import '../styles/explore-foods.css';
 
 function ExploreFoods() {
   const { randomRecipes, sendRecipeType } = useContext(explorerContext);
@@ -23,30 +24,32 @@ function ExploreFoods() {
       <Header pageName="Explore Foods" isEnable={ false } />
       {/* Req 71 - Add botões ingredient e nationality
        para filtro e Req 72/73 criado rotas para suas respectivas paginas */}
-      <Link to="/explore/foods/ingredients">
+      <div className="explore-food-container">
+        <Link to="/explore/foods/ingredients">
+          <button
+            data-testid="explore-by-ingredient"
+            type="button"
+          >
+            By Ingredient
+          </button>
+        </Link>
+        <Link to="/explore/foods/nationalities">
+          <button
+            data-testid="explore-by-nationality"
+            type="button"
+          >
+            By Nationality
+          </button>
+        </Link>
+        {/* Req 74 - Chama função passando o tipo da receita para o provider  */ }
         <button
-          data-testid="explore-by-ingredient"
+          data-testid="explore-surprise"
           type="button"
+          onClick={ () => sendRecipeType('food') }
         >
-          By Ingredient
+          Surprise me!
         </button>
-      </Link>
-      <Link to="/explore/foods/nationalities">
-        <button
-          data-testid="explore-by-nationality"
-          type="button"
-        >
-          By Nationality
-        </button>
-      </Link>
-      {/* Req 74 - Chama função passando o tipo da receita para o provider  */ }
-      <button
-        data-testid="explore-surprise"
-        type="button"
-        onClick={ () => sendRecipeType('food') }
-      >
-        Surprise me!
-      </button>
+      </div>
 
       <div>
         <Footer />

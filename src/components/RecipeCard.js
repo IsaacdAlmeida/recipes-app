@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/recipecard.css';
 
 function RecipeCard({ foods, index, drinks }) {
   if (foods !== undefined) {
     const { strMealThumb, strMeal } = foods;
     return (
-      <div data-testid={ `${index}-recipe-card` }>
+      <div data-testid={ `${index}-recipe-card` } className="card-container">
         <img
           data-testid={ `${index}-card-img` }
           src={ strMealThumb }
           alt={ `plate of ${strMeal}` }
         />
-        <h4 data-testid={ `${index}-card-name` }>{ strMeal }</h4>
+        <div className="text-container">
+          <h4 data-testid={ `${index}-card-name` }>{ strMeal }</h4>
+        </div>
       </div>
     );
   }
@@ -19,13 +22,15 @@ function RecipeCard({ foods, index, drinks }) {
   if (drinks !== undefined) {
     const { strDrinkThumb, strDrink } = drinks;
     return (
-      <div data-testid={ `${index}-recipe-card` }>
+      <div data-testid={ `${index}-recipe-card` } className="card-container">
         <img
           data-testid={ `${index}-card-img` }
           src={ strDrinkThumb }
           alt={ `cup of ${strDrink}` }
         />
-        <h4 data-testid={ `${index}-card-name` }>{ strDrink }</h4>
+        <div className="text-container">
+          <h4 data-testid={ `${index}-card-name` }>{ strDrink }</h4>
+        </div>
       </div>
     );
   }

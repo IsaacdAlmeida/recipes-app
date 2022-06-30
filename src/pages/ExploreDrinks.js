@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import explorerContext from '../context/exploreContext';
 import Footer from '../components/Footer';
+import '../styles/explore.css';
 
 function ExploreDrinks() {
   const { randomRecipes, sendRecipeType } = useContext(explorerContext);
@@ -22,22 +23,24 @@ function ExploreDrinks() {
     <div>
       <Header pageName="Explore Drinks" isEnable={ false } />
       {/* Req 71 - Add botão para filtro e Req 72 criado rota para a pagina de ingrediente */ }
-      <Link to="/explore/drinks/ingredients">
+      <div className="explore-container">
+        <Link to="/explore/drinks/ingredients">
+          <button
+            data-testid="explore-by-ingredient"
+            type="button"
+          >
+            By Ingredient
+          </button>
+        </Link>
+        {/* Req 74 - Chama função passando o tipo da receita para o provider  */ }
         <button
-          data-testid="explore-by-ingredient"
+          data-testid="explore-surprise"
           type="button"
+          onClick={ () => sendRecipeType('drink') }
         >
-          By Ingredient
+          Surprise me!
         </button>
-      </Link>
-      {/* Req 74 - Chama função passando o tipo da receita para o provider  */ }
-      <button
-        data-testid="explore-surprise"
-        type="button"
-        onClick={ () => sendRecipeType('drink') }
-      >
-        Surprise me!
-      </button>
+      </div>
 
       <div>
         <Footer />

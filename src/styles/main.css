@@ -1,0 +1,55 @@
+.button-container {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-wrap: wrap;
+  height: 80px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.button-container button {
+  background-color: #fffcae;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--text-black);
+  font-size: 12px;
+  font-weight: 600;
+  height: 35px;
+  overflow: hidden;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 95px;
+}
+
+.button-container button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}
+
+.recipe-container {
+  display: flex;
+  height: 200px;
+  margin: 10px;
+  width: 140px;
+}
+
+.body-container {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-wrap: wrap;
+  height: 640px;
+  justify-content: space-around;
+  margin-bottom: 60px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.body-container::-webkit-scrollbar {
+  display: none;
+}
