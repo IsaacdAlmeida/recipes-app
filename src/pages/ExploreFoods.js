@@ -20,7 +20,7 @@ function ExploreFoods() {
   }, [randomRecipes, push]);
 
   return (
-    <div>
+    <div className="app-container">
       <Header pageName="Explore Foods" isEnable={ false } />
       {/* Req 71 - Add botões ingredient e nationality
        para filtro e Req 72/73 criado rotas para suas respectivas paginas */}

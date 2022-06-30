@@ -57,3 +57,58 @@
 .body-container::-webkit-scrollbar {
   display: none;
 }
+
+.email-container {
+  margin-top: 15px;
+  font: var(--text-black);
+  font-size: 25px;
+  font-weight: 600;
+  height: 50px;
+  text-align: center;
+}
+
+.profile-container {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  height: 640px;
+}
+
+.button-profile {
+  display: flex;
+  flex-direction: column;
+  height: 180px;
+  justify-content: space-between;
+}
+
+.button-profile button {
+  background-color: #fffcae;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--text-black);
+  font-size: 22px;
+  font-weight: 600;
+  height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
+  width: 293px;
+}
+
+.button-profile button:hover {
+  background-image: linear-gradient(to right, var(--primary-yellow), var(--primary-red));
+  background-position: 100% 0;
+  box-shadow: 0 4px 15px 0 var(--primary-yellow);
+  transition: all 0.4s ease-in-out;
+}
+
+.button-profile button:focus {
+  outline: none;
+}
+
+.button-profile button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
