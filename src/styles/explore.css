@@ -1,3 +1,8 @@
+.app-container {
+  background-color: var(--background-color);
+  height: 640px;
+}
+
 .explore-container {
   align-items: center;
   background-color: var(--background-color);

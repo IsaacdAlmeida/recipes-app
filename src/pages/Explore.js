@@ -6,7 +6,7 @@ import '../styles/explore.css';
 
 function Explore() {
   return (
-    <div>
+    <div className="app-container">
       <Header pageName="Explore" isEnable={ false } />
       {/* Req - 68/69 criado dois botões e adicionado rotas para suas respectivas paginas */ }
       <div className="explore-container">

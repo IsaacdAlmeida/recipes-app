@@ -31,6 +31,7 @@ function HeaderSearch() {
       <label htmlFor="ingredients">
         Ingredients
         <input
+          className="radio"
           data-testid="ingredient-search-radio"
           type="radio"
           name="attributos"
@@ -42,6 +43,7 @@ function HeaderSearch() {
       <label htmlFor="name">
         Name
         <input
+          className="radio"
           data-testid="name-search-radio"
           type="radio"
           name="attributos"
@@ -53,6 +55,7 @@ function HeaderSearch() {
       <label htmlFor="letter">
         First letter
         <input
+          className="radio"
           data-testid="first-letter-search-radio"
           type="radio"
           name="attributos"

@@ -20,7 +20,7 @@ function ExploreDrinks() {
   }, [randomRecipes, push]);
 
   return (
-    <div>
+    <div className="app-container">
       <Header pageName="Explore Drinks" isEnable={ false } />
       {/* Req 71 - Add botão para filtro e Req 72 criado rota para a pagina de ingrediente */ }
       <div className="explore-container">

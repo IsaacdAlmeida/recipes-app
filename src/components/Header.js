@@ -45,15 +45,17 @@ function Header({ pageName, isEnable }) {
         </div>
 
       </div>
-      <div className="inpunt-container">
+      <div>
         { showSearchBar
                   && (
-                    <div className="xablau">
+                    <div className="input-search-container">
                       <input
+                        className="search-bar"
                         data-testid="search-input"
                         type="text"
                         value={ search }
                         onChange={ handleChange }
+                        placeholder="Search"
                       />
                       <HeaderSearch />
                     </div>
