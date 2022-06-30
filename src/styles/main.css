@@ -38,6 +38,10 @@
   width: 140px;
 }
 
+.recipe-container a{
+  text-decoration: none;
+}
+
 .body-container {
   align-items: center;
   background-color: var(--background-color);
