@@ -1,14 +1,16 @@
 import PropType from 'prop-types';
 import React from 'react';
+import '../styles/details.css';
 
 function RenderImage({ srcImage }) {
   return (
-    <img
-      alt="img-recipe"
-      data-testid="recipe-photo"
-      src={ srcImage }
-      width="100%"
-    />
+    <div className="image-details">
+      <img
+        alt="img-recipe"
+        data-testid="recipe-photo"
+        src={ srcImage }
+      />
+    </div>
   );
 }
 

@@ -8,7 +8,6 @@ function RenderShare({ id, site }) {
 
   return (
     <div>
-      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
       <input
         type="image"
         data-testid="share-btn"
@@ -18,6 +17,7 @@ function RenderShare({ id, site }) {
         alt="share button"
         id={ id }
       />
+      { Number(indexMessage) === Number(id) && <p>Link copied!</p> }
     </div>
   );
 }
