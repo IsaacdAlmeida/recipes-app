@@ -3,7 +3,7 @@
   background: linear-gradient(to bottom, var(--primary-yellow), var(--primary-red));
   display: flex;
   flex-direction: column;
-  height: 800px;
+  height: 720px;
   justify-content: space-around;
   width: 360px;
 }
