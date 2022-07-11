@@ -1,16 +1,25 @@
 import PropType from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FavoriteIcon from '../components/FavoriteIcon';
 import RenderCategory from '../components/RenderCategory';
 import RenderImage from '../components/RenderImage';
 import RenderInstructions from '../components/RenderInstructions';
 import RenderShare from '../components/RenderShare';
 import RenderTitle from '../components/RenderTitle';
+import doneRecipesContext from '../context/doneRecipesContext';
 import { requireApiFood } from '../services/themealdbApi';
-// import ButtonFinishRecipe from '../components/ButtonFinishRecipe';
 import '../styles/details.css';
 
+const DEFAULT_STORAGE = { cocktails: {}, meals: {} };
+
 function MealsRecipesInProgress(props) {
+  const {
+    qtdChecked,
+    setQtdChecked,
+    handleOnChange,
+    isChecked,
+    setIsChecked,
+  } = useContext(doneRecipesContext);
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [arrayIngredients, setIngredient] = useState([]);
@@ -30,7 +39,6 @@ function MealsRecipesInProgress(props) {
     if (Object.keys(data).length !== 0) {
       setLoading(false);
     }
-    // console.log('oi');
   }, [data]);
 
   useEffect(() => {
@@ -56,6 +64,17 @@ function MealsRecipesInProgress(props) {
     setMeasure(arrayMeasure);
   }, [data]);
 
+  useEffect(() => {
+    const inProgressRecipes = JSON
+      .parse(localStorage.getItem('inProgressRecipes')) || DEFAULT_STORAGE;
+    const { meals } = inProgressRecipes;
+    console.log(meals[id]);
+    if (meals[id]) {
+      setIsChecked(meals[id]);
+      setQtdChecked(meals[id].length);
+    }
+  }, [id, setIsChecked, setQtdChecked]);
+
   const { strMealThumb, strMeal, strCategory, strInstructions, strArea } = data;
 
   const objFavorite = {
@@ -66,14 +85,6 @@ function MealsRecipesInProgress(props) {
     alcoholicOrNot: '',
     name: strMeal,
     image: strMealThumb,
-  };
-
-  const [isChecked, setIsChecked] = useState(false);
-  const [ingredientIndex, setIngredientIndex] = useState('');
-
-  const handleOnChange = (i) => {
-    setIsChecked(!isChecked);
-    setIngredientIndex(i);
   };
 
   return isLoading ? <p>Loading ...</p> : (
@@ -91,22 +102,22 @@ function MealsRecipesInProgress(props) {
       </div>
       <div className="details-ingredients">
         <h3>Ingredients</h3>
-        {arrayIngredients.map((ingredient, index) => (
+        { arrayIngredients.map((ingredient, index) => (
           <p
             key={ index }
             data-testid={ `${index}-ingredient-step` }
-            style={ { textDecoration: isChecked && ingredientIndex === index
-              ? 'line-through' : 'none' } }
-
           >
             <input
               type="checkbox"
               id={ index }
-              onClick={ () => handleOnChange(index) }
+              checked={ isChecked[index] }
+              onChange={
+                (event) => handleOnChange(event, data[ingredient], 'meals')
+              }
             />
-            {`${data[ingredient]} - ${data[arrayMeasures[index]]}`}
+            { `${data[ingredient]} - ${data[arrayMeasures[index]]}` }
           </p>
-        ))}
+        )) }
       </div>
       <div className="details-instructions">
         <RenderInstructions strInstructions={ strInstructions } />
@@ -116,6 +127,7 @@ function MealsRecipesInProgress(props) {
           type="button"
           data-testid="finish-recipe-btn"
           className="finish-recipe-bottom"
+          disabled={ qtdChecked < arrayIngredients.length }
           onClick={ () => push('/done-recipes') }
         >
           Finish Recipe

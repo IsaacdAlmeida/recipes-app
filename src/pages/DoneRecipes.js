@@ -41,7 +41,8 @@ function DoneRecipes() {
           >
             Drinks
           </button>
-          { console.log(filtered) }
+        </div>
+        <div>
           { filtered && filtered.map((recipes, index) => (
             <div key={ recipes.id }>
               {/* Req 56 - copiado a msm logica aplicada pelo Issac no component Header */ }
@@ -65,6 +66,9 @@ function DoneRecipes() {
                   alt={ recipes.name }
                 />
               </Link>
+              <Link to={ `/${recipes.type}s/${recipes.id}` }>
+                <h3 data-testid={ `${index}-horizontal-name` }>{ recipes.name }</h3>
+              </Link>
               <p
                 data-testid={ `${index}-horizontal-top-text` }
               >
@@ -73,10 +77,11 @@ function DoneRecipes() {
                   : `${recipes.alcoholicOrNot}` }
               </p>
               {/* Req 59 - Aplicado o redirect para a pagina da receita */ }
-              <Link to={ `/${recipes.type}s/${recipes.id}` }>
-                <h3 data-testid={ `${index}-horizontal-name` }>{ recipes.name }</h3>
-              </Link>
-              <p data-testid={ `${index}-horizontal-done-date` }>{ recipes.doneDate }</p>
+              <p
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                { recipes.doneDate }
+              </p>
               {/* Necessário criar um novo map, pois o retorno recebido no LocalStore tem um array dentro do Obj */ }
               { Object.values(recipes.tags)
                 .map((tag, indexTag) => (
