@@ -15,7 +15,7 @@ function ButtonCategoriesFoodsFilter() {
         data-testid={ `${item.strCategory}-category-filter` }
         onClick={ () => handleCategoriesFoodsFilter(item.strCategory) }
       >
-        {item.strCategory}
+        { item.strCategory }
       </button>
     )));
 }

@@ -42,7 +42,6 @@ function FavoriteRecipes() {
           >
             Drinks
           </button>
-          { console.log(favoritesStorage) }
         </div>
         <div>
           { favoritesStorage.length !== 0 && favoritesStorage.map((recipes, index) => (
