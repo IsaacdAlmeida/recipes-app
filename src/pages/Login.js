@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
 import '../styles/login.css';
+import ihungry from '../images/ihungry.png';
 
 function Login(props) {
   const [email, setEmail] = useState('');
@@ -40,7 +41,10 @@ function Login(props) {
   return (
     <form onSubmit={ handleSubmit } className="form-container">
       <div className="logo-container">
-        <h2>Login</h2>
+        <img
+          src={ ihungry }
+          alt="aplication logo named ihungry"
+        />
       </div>
       <div className="input-container">
         <input
