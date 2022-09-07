@@ -11,8 +11,9 @@ O projeto consiste em desenvolver uma aplicação em react que simule um app mob
 - [Context API](#context-api)
 - [Testes](#testes)
 - [Metodologias Ágeis](#metodologias-ágeis)
-- [Aprendizados](#Aprendizados)
+- [Aprendizados](#aprendizados)
 - [Instruções para utilizar a aplicação](#instruções-para-utilizar-a-aplicação)
+- [Preview da Aplicação](#preview-da-aplicação)
 - [Histórico de Commits](#histórico-de-commits)
 
 ## Tecnologias utilizadas
@@ -31,6 +32,13 @@ Fizemos diversos testes utilizando a react-testing-library, não conseguimos cob
 
 Os métodos ágeis são uma alternativa à gestão tradicional de projetos. A utilização de metodologias ágeis nesse projeto foi crucial, foi um projeto com 87 requisitos e 5 pessoas trabalhando em grupo, utilizamos o quadro kanban para observar o andamento das tasks que foram distribuídas, definimos as metas e os combinados na primeira reunião e nas daily meetings acompanhamos o andamento do projeto de cada pessoa. Também fizemos pair programming em alguns requisitos.
 
+<p align="center">
+<img src="./samples/kanban.png" alt="kanban-board" width="900"/>
+</p>
+<p align="center">
+Nosso quadro Kanban durante o desenvolvimento
+</p>
+
 ## Aprendizados
 
 Nosso grupo foi capaz de desenvolver uma aplicação em React que consome duas APIs com diversos endpoints, elas retornam uma lista de ingredientes de diversas pratos e drinks, sendo possível fazer filtro por nacionalidade, ingredientes, procurar receitas pelo nome, favoritar a receita, entrar na página de detalhes da receita e ver o passo a passo, bem como visualizar um vídeo de como preparar a receita.
@@ -48,6 +56,48 @@ Após instalar o node e npm, você precisará usar o comando `npm install` para 
 Você poderá utilizar o comando `npm start` para exibir a página da aplicação.
 
 A aplicação foi desenvolvida para simular um aplicativo mobile, dessa forma você pode utilizar a extensão [Mobile Simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk) para google chrome. 
+
+## Preview da Aplicação
+
+<p align="center">
+<img src="./samples/login.png" alt="login"/>
+</p>
+<p align="center">
+Tela de Login
+</p>
+<hr />
+
+<p align="center">
+<img src="./samples/telafoods.png" alt="foods"/>
+</p>
+<p align="center">
+Tela Principal
+</p>
+<hr />
+
+<p align="center">
+<img src="./samples/teladrinks.png" alt="drinks"/>
+</p>
+<p align="center">
+Tela de Drinks
+</p>
+<hr />
+
+<p align="center">
+<img src="./samples/exploreingredients.png" alt="explore"/>
+</p>
+<p align="center">
+Tela de explorar ingredientes
+</p>
+<hr />
+
+<p align="center">
+<img src="./samples/profile.png" alt="profile"/>
+</p>
+<p align="center">
+Tela de Perfil
+</p>
+<hr />
 
 ## Histórico de commits
 
