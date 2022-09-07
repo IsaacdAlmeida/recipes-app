@@ -7,15 +7,15 @@ O projeto consiste em desenvolver uma aplicação em react que simule um app mob
 ## Sumário
 
 - [Introdução](#introdução)
-- [Tecnologias utilizadas](#tecnologias-utilizada)
+- [Tecnologias utilizadas](#tecnologias-utilizadas)
 - [Context API](#context-api)
 - [Testes](#testes)
-- [Metodologias Ágeis](#metodologias-ageis)
+- [Metodologias Ágeis](#metodologias-ágeis)
 - [Aprendizados](#Aprendizados)
 - [Instruções para utilizar a aplicação](#instruções-para-utilizar-a-aplicação)
 - [Histórico de Commits](#histórico-de-commits)
 
-## Tecnologias utilizada
+## Tecnologias utilizadas
 
 **Front-End:** JavaScript, React, Context API e RTL.
 
